@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KaamWala Admin Dashboard</title>
+  </head>
+  <body class="bg-shell font-sans">
+    <div id="dashboardShell" class="min-h-screen lg:grid lg:grid-cols-[280px_1fr]">
+      <aside class="border-b border-line bg-white p-4 lg:min-h-screen lg:border-b-0 lg:border-r">
+        <div class="flex items-center gap-3">
+          <div class="gradient-brand flex h-10 w-10 items-center justify-center rounded-xl"><i data-lucide="shield" class="h-5 w-5 text-white"></i></div>
+          <div>
+            <div class="font-display text-xl font-extrabold">KaamWala</div>
+            <div class="text-xs font-bold uppercase tracking-widest text-neutral-500">Admin</div>
+          </div>
+        </div>
+        <nav class="mt-6 grid gap-2">
+          <button class="admin-tab active rounded-xl px-4 py-3 text-left text-sm font-bold" data-tab="overview"><i data-lucide="layout-dashboard" class="mr-2 inline h-4 w-4"></i>Overview</button>
+          <button class="admin-tab rounded-xl px-4 py-3 text-left text-sm font-bold" data-tab="workers"><i data-lucide="badge-check" class="mr-2 inline h-4 w-4"></i>Worker Verification</button>
+          <button class="admin-tab rounded-xl px-4 py-3 text-left text-sm font-bold" data-tab="bookings"><i data-lucide="calendar" class="mr-2 inline h-4 w-4"></i>Bookings</button>
+          <button class="admin-tab rounded-xl px-4 py-3 text-left text-sm font-bold" data-tab="users"><i data-lucide="users" class="mr-2 inline h-4 w-4"></i>Users</button>
+          <button class="admin-tab rounded-xl px-4 py-3 text-left text-sm font-bold" data-tab="categories"><i data-lucide="layers" class="mr-2 inline h-4 w-4"></i>Categories</button>
+        </nav>
+      </aside>
+
+      <main class="p-4 sm:p-6 lg:p-8">
+        <header class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 class="font-display text-3xl font-extrabold">Dashboard</h1>
+            <p class="text-sm text-neutral-500">Signed in as <span id="adminName">Admin</span></p>
+          </div>
+          <button id="logoutAdmin" class="btn-soft"><i data-lucide="log-out" class="h-4 w-4"></i>Logout</button>
+        </header>
+
+        <section data-panel="overview">
+          <div id="overviewCards" class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"></div>
+        </section>
+
+        <section data-panel="workers" class="hidden">
+          <h2 class="mb-4 font-display text-2xl font-extrabold">Pending workers</h2>
+          <div id="pendingWorkers" class="grid gap-4"></div>
+        </section>
+
+        <section data-panel="bookings" class="hidden">
+          <div class="mb-4 flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+            <h2 class="font-display text-2xl font-extrabold">Bookings</h2>
+            <div class="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+              <select id="bookingStatus" class="input-field">
+                <option value="">All statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="in_progress">In progress</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <select id="bookingCityFilter" data-city-options class="input-field"></select>
+              <input id="bookingFrom" type="date" class="input-field" aria-label="From date" />
+              <input id="bookingTo" type="date" class="input-field" aria-label="To date" />
+            </div>
+          </div>
+          <div class="card overflow-x-auto">
+            <table class="w-full min-w-[760px] text-left text-sm">
+              <thead class="bg-soft text-xs uppercase tracking-widest text-neutral-500"><tr><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Worker/Service</th><th class="px-4 py-3">City</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Amount</th><th class="px-4 py-3">Scheduled</th></tr></thead>
+              <tbody id="bookingRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section data-panel="users" class="hidden">
+          <h2 class="mb-4 font-display text-2xl font-extrabold">Users</h2>
+          <div class="card overflow-x-auto">
+            <table class="w-full min-w-[760px] text-left text-sm">
+              <thead class="bg-soft text-xs uppercase tracking-widest text-neutral-500"><tr><th class="px-4 py-3">Name</th><th class="px-4 py-3">Phone</th><th class="px-4 py-3">Role</th><th class="px-4 py-3">Status</th><th class="px-4 py-3">Action</th></tr></thead>
+              <tbody id="userRows"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section data-panel="categories" class="hidden">
+          <h2 class="mb-4 font-display text-2xl font-extrabold">Categories</h2>
+          <form id="categoryForm" class="card mb-4 grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto]">
+            <input class="input-field" name="name" placeholder="Category name" required />
+            <input class="input-field" name="icon" placeholder="Lucide icon, e.g. wrench" required />
+            <button class="btn-primary" type="submit">Save</button>
+          </form>
+          <div class="card overflow-x-auto">
+            <table class="w-full min-w-[520px] text-left text-sm">
+              <thead class="bg-soft text-xs uppercase tracking-widest text-neutral-500"><tr><th class="px-4 py-3">Name</th><th class="px-4 py-3">Icon</th><th class="px-4 py-3">Action</th></tr></thead>
+              <tbody id="categoryRows"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="hidden"></div>
+    <script type="module" src="/src/admin.js"></script>
+  </body>
+</html>

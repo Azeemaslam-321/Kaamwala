@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FFFCF7;
+  --surface: #FFFFFF;
+  --ink: #1B1B1B;
+  --ink-muted: #6B6B6B;
+  --brand: #FF6B35;
+  --brand-dark: #E85420;
+  --brand-soft: #FFF4ED;
+  --teal: #2A9D8F;
+  --gold: #FFC93C;
+  --border: #EFE9DD;
+}
+
+* { -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); }
+
+@layer components {
+  .gradient-brand { background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%); }
+  .gradient-text {
+    background: linear-gradient(135deg, #FF6B35 0%, #E85420 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .glass { background: rgba(255,252,247,0.82); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
+  .input-field {
+    @apply w-full rounded-xl border border-line bg-shell px-4 py-3 text-sm outline-none transition focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10;
+  }
+  .btn-primary { @apply gradient-brand inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold text-white shadow-glow transition hover:-translate-y-0.5; }
+  .btn-dark { @apply inline-flex items-center justify-center gap-2 rounded-xl bg-ink px-5 py-3 text-sm font-bold text-white transition hover:opacity-90; }
+  .btn-soft { @apply inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-bold transition hover:border-brand hover:text-brand; }
+  .chip { @apply rounded-full border border-line bg-white px-4 py-2 text-sm font-bold transition hover:border-brand hover:text-brand; }
+  .chip.active { @apply border-ink bg-ink text-white hover:text-white; }
+  .card { @apply rounded-2xl border border-line bg-white shadow-sm; }
+  .admin-tab.active { @apply bg-ink text-white; }
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 4px solid rgba(255, 107, 53, 0.18);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.animate-float { animation: float 5s ease-in-out infinite; }

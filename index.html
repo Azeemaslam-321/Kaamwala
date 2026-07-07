@@ -1,1346 +1,220 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KaamWala — Trusted Local Service Experts</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #FFFCF7;
-    --surface: #FFFFFF;
-    --ink: #1B1B1B;
-    --ink-muted: #6B6B6B;
-    --brand: #FF6B35;
-    --brand-dark: #E85420;
-    --brand-soft: #FFF4ED;
-    --teal: #2A9D8F;
-    --gold: #FFC93C;
-    --border: #EFE9DD;
-  }
-  * { -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-  }
-  .font-display { font-family: 'Sora', sans-serif; }
-  .text-brand { color: var(--brand); }
-  .bg-brand { background: var(--brand); }
-  .bg-ink { background: var(--ink); }
-  .bg-soft { background: var(--brand-soft); }
-  .border-soft { border-color: var(--border); }
-  .gradient-brand { background: linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%); }
-  .gradient-ink { background: linear-gradient(135deg, #1B1B1B 0%, #2A2A2A 100%); }
-  .gradient-text {
-    background: linear-gradient(135deg, #FF6B35 0%, #E85420 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
-  .animate-float { animation: float 5s ease-in-out infinite; }
-  .animate-float-delay { animation: float 5s ease-in-out 1.5s infinite; }
-  @keyframes pulse-ring { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.8); opacity: 0; } }
-  .card-hover { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
-  .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 48px -16px rgba(255,107,53,0.20);
-    border-color: rgba(255,107,53,0.3);
-  }
-  .reveal { opacity: 0; transform: translateY(24px); transition: all 0.7s cubic-bezier(0.4,0,0.2,1); }
-  .reveal.in { opacity: 1; transform: translateY(0); }
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--brand); }
-  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-  .marquee { animation: marquee 35s linear infinite; }
-  .modal-backdrop { backdrop-filter: blur(8px); background: rgba(27,27,27,0.6); }
-  .modal-enter { animation: modalIn 0.35s cubic-bezier(0.4,0,0.2,1) forwards; }
-  @keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-  .icon-tile { transition: all 0.3s ease; }
-  .group:hover .icon-tile { background: var(--brand); color: white; transform: rotate(-6deg) scale(1.08); }
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  .blob { border-radius: 64% 36% 60% 40% / 48% 52% 48% 52%; }
-  .star-filled { color: var(--gold); }
-  .step-dot.active { background: var(--brand); color: white; border-color: var(--brand); }
-  .step-dot.done { background: var(--teal); color: white; border-color: var(--teal); }
-  .pulse-dot::before { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--teal); animation: pulse-ring 1.6s ease-out infinite; }
-  .rating-btn.active { background: var(--brand); color: white; border-color: var(--brand); }
-  .input-field { background: var(--bg); border: 1.5px solid var(--border); border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 0.9rem; outline: none; transition: all 0.2s; width: 100%; }
-  .input-field:focus { border-color: var(--brand); background: white; box-shadow: 0 0 0 4px rgba(255,107,53,0.1); }
-  .chip { padding: 0.4rem 0.85rem; border-radius: 999px; border: 1.5px solid var(--border); font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-  .chip:hover { border-color: var(--brand); color: var(--brand); }
-  .chip.active { background: var(--ink); color: white; border-color: var(--ink); }
-  .glass { background: rgba(255,252,247,0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-  @media (max-width: 1024px) { .hero-visual { display: none !important; } }
-</style>
-</head>
-<body class="overflow-x-hidden">
-
-<!-- Announcement -->
-<div class="bg-ink text-white text-xs sm:text-sm py-2 px-4">
-  <div class="max-w-7xl mx-auto flex items-center justify-center gap-2 text-center">
-    <i data-lucide="sparkles" class="w-4 h-4 text-brand"></i>
-    <span>First booking? Use code <strong class="text-brand">KAAM30</strong> for ₹30 OFF your lead fee</span>
-  </div>
-</div>
-
-<!-- Navigation -->
-<nav id="nav" class="sticky top-0 z-40 glass border-b border-soft">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
-    <a href="#" class="flex items-center gap-2.5">
-      <div class="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center shadow-lg shadow-orange-500/30">
-        <i data-lucide="wrench" class="w-5 h-5 text-white"></i>
-      </div>
-      <div class="leading-none">
-        <div class="font-display font-extrabold text-xl tracking-tight">KaamWala</div>
-        <div class="text-[10px] text-[var(--ink-muted)] font-semibold tracking-widest uppercase">Local Experts</div>
-      </div>
-    </a>
-    <div class="hidden lg:flex items-center gap-8 text-sm font-medium">
-      <a href="#services" class="hover:text-brand transition">Services</a>
-      <a href="#workers" class="hover:text-brand transition">Workers</a>
-      <a href="#how" class="hover:text-brand transition">How it Works</a>
-      <a href="#trust" class="hover:text-brand transition">Trust & Safety</a>
-      <a href="#admin" class="hover:text-brand transition">For Business</a>
-    </div>
-    <div class="flex items-center gap-2.5">
-      <a href="#workers" class="hidden sm:flex items-center gap-1.5 text-sm font-semibold px-4 py-2.5 rounded-full border border-soft hover:border-brand hover:text-brand transition">
-        <i data-lucide="user-plus" class="w-4 h-4"></i>
-        Become a Worker
-      </a>
-      <button onclick="openBooking()" class="flex items-center gap-1.5 text-sm font-semibold px-4 py-2.5 rounded-full gradient-brand text-white shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:-translate-y-0.5 transition">
-        <i data-lucide="zap" class="w-4 h-4"></i>
-        Book Now
-      </button>
-      <button id="menuBtn" class="lg:hidden p-2"><i data-lucide="menu" class="w-6 h-6"></i></button>
-    </div>
-  </div>
-  <div id="mobileMenu" class="hidden lg:hidden border-t border-soft bg-[var(--bg)]">
-    <div class="px-4 py-3 flex flex-col gap-1 text-sm font-medium">
-      <a href="#services" class="py-2.5 mobile-link">Services</a>
-      <a href="#workers" class="py-2.5 mobile-link">Workers</a>
-      <a href="#how" class="py-2.5 mobile-link">How it Works</a>
-      <a href="#trust" class="py-2.5 mobile-link">Trust & Safety</a>
-      <a href="#admin" class="py-2.5 mobile-link">For Business</a>
-    </div>
-  </div>
-</nav>
-
-<!-- Hero -->
-<section class="relative overflow-hidden">
-  <div class="absolute top-20 -right-20 w-96 h-96 bg-brand/10 blob blur-3xl"></div>
-  <div class="absolute -bottom-32 -left-20 w-96 h-96 bg-teal/10 blob blur-3xl" style="background:#2A9D8F1A"></div>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-20 grid lg:grid-cols-12 gap-12 items-center relative">
-    <div class="lg:col-span-7">
-      <div class="inline-flex items-center gap-2 bg-soft border border-brand/20 px-3 py-1.5 rounded-full text-xs font-semibold text-brand mb-6">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-brand"></span>
-        </span>
-        2,847 workers online now across India
-      </div>
-      <h1 class="font-display font-extrabold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl leading-[1.05] tracking-tight">
-        Find <span class="gradient-text">trusted experts</span> for every job in your home.
-      </h1>
-      <p class="mt-6 text-lg text-[var(--ink-muted)] max-w-xl leading-relaxed">
-        Electricians, plumbers, carpenters and more — verified, rated, and ready in minutes. Pay just ₹30 to connect. No middlemen, no surprises.
-      </p>
-
-      <div class="mt-8 bg-white rounded-2xl p-2 shadow-xl shadow-black/5 border border-soft flex flex-col sm:flex-row gap-2 max-w-2xl">
-        <div class="flex-1 flex items-center gap-2 px-3">
-          <i data-lucide="search" class="w-5 h-5 text-[var(--ink-muted)]"></i>
-          <input id="heroSearch" type="text" placeholder="What needs fixing? e.g. leaking tap" class="w-full bg-transparent py-3 outline-none text-sm">
-        </div>
-        <div class="hidden sm:flex items-center gap-2 px-3 border-l border-soft">
-          <i data-lucide="map-pin" class="w-5 h-5 text-[var(--ink-muted)]"></i>
-          <select class="bg-transparent py-3 text-sm outline-none font-medium">
-            <option>Mumbai</option><option>Delhi</option><option>Bengaluru</option><option>Pune</option><option>Hyderabad</option>
-          </select>
-        </div>
-        <button onclick="scrollToWorkers()" class="gradient-brand text-white font-semibold px-6 py-3 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-orange-500/30 transition">
-          Find Experts
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="mt-10 grid grid-cols-3 gap-4 max-w-xl">
-        <div>
-          <div class="font-display text-2xl sm:text-3xl font-extrabold">12K+</div>
-          <div class="text-xs text-[var(--ink-muted)] mt-1">Verified Workers</div>
-        </div>
-        <div class="border-l border-soft pl-4">
-          <div class="font-display text-2xl sm:text-3xl font-extrabold">4.8<span class="text-brand">★</span></div>
-          <div class="text-xs text-[var(--ink-muted)] mt-1">Avg. Rating</div>
-        </div>
-        <div class="border-l border-soft pl-4">
-          <div class="font-display text-2xl sm:text-3xl font-extrabold">85K+</div>
-          <div class="text-xs text-[var(--ink-muted)] mt-1">Jobs Completed</div>
-        </div>
-      </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="KaamWala connects homes with verified local service experts." />
+    <title>KaamWala - Trusted Local Service Experts</title>
+  </head>
+  <body class="overflow-x-hidden font-sans">
+    <div class="bg-ink px-4 py-2 text-center text-xs font-semibold text-white sm:text-sm">
+      Lucknow, Unnao, Kanpur, Basti aur Gorakhpur me verified local experts.
     </div>
 
-    <div class="lg:col-span-5 relative h-[520px] hero-visual">
-      <div class="absolute top-0 right-6 w-72 bg-white rounded-3xl shadow-2xl shadow-black/10 border border-soft p-5 animate-float z-20">
-        <div class="flex items-center gap-3">
-          <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=200&h=200&fit=crop" class="w-14 h-14 rounded-2xl object-cover" alt="">
-          <div class="flex-1 min-w-0">
-            <div class="flex items-center gap-1">
-              <div class="font-bold truncate">Ramesh K.</div>
-              <i data-lucide="badge-check" class="w-4 h-4 text-brand flex-shrink-0"></i>
-            </div>
-            <div class="text-xs text-[var(--ink-muted)]">Electrician • 8 yrs</div>
+    <nav class="glass sticky top-0 z-40 border-b border-line">
+      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6">
+        <a href="/" class="flex items-center gap-2.5">
+          <div class="gradient-brand flex h-10 w-10 items-center justify-center rounded-xl shadow-glow">
+            <i data-lucide="wrench" class="h-5 w-5 text-white"></i>
           </div>
-        </div>
-        <div class="flex items-center gap-1 mt-3">
-          <i data-lucide="star" class="w-4 h-4 fill-[var(--gold)] text-[var(--gold)]"></i>
-          <span class="font-bold text-sm">4.9</span>
-          <span class="text-xs text-[var(--ink-muted)]">(234)</span>
-          <span class="ml-auto text-xs font-semibold text-[var(--teal)] flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-pulse"></span>Online</span>
-        </div>
-        <div class="mt-4 p-3 bg-soft rounded-xl flex items-end justify-between">
-          <div>
-            <div class="text-xs text-[var(--ink-muted)]">Starting at</div>
-            <div class="font-display font-bold text-2xl">₹149<span class="text-sm font-normal text-[var(--ink-muted)]">/visit</span></div>
-          </div>
-          <div class="text-xs text-[var(--ink-muted)]">Andheri W</div>
-        </div>
-        <button class="mt-3 w-full bg-ink text-white text-sm font-semibold py-2.5 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
-          WhatsApp Now
-        </button>
-      </div>
-
-      <div class="absolute top-44 -left-2 bg-white rounded-2xl shadow-xl border border-soft p-4 animate-float-delay z-10 w-56">
-        <div class="flex items-center gap-2">
-          <div class="relative w-2 h-2"><span class="absolute inset-0 rounded-full bg-[var(--teal)]"></span><span class="absolute inset-0 rounded-full bg-[var(--teal)] animate-ping opacity-75"></span></div>
-          <div class="text-xs font-bold">Booking Confirmed</div>
-        </div>
-        <div class="mt-2 text-sm font-semibold">Suresh is on the way 🛵</div>
-        <div class="text-xs text-[var(--ink-muted)] mt-1">Arriving in 25 mins • Andheri</div>
-        <div class="mt-3 h-1.5 bg-soft rounded-full overflow-hidden"><div class="h-full bg-[var(--teal)] rounded-full" style="width:65%"></div></div>
-      </div>
-
-      <div class="absolute bottom-10 right-0 bg-ink text-white rounded-2xl shadow-2xl p-4 animate-float z-30 w-60">
-        <div class="flex items-center justify-between">
-          <div class="text-xs text-white/60">This month's earnings</div>
-          <i data-lucide="trending-up" class="w-4 h-4 text-[var(--teal)]"></i>
-        </div>
-        <div class="font-display text-3xl font-extrabold mt-1">₹38,420</div>
-        <div class="text-xs text-white/60 mt-1">+24% from last month</div>
-      </div>
-
-      <div class="absolute bottom-0 left-8 w-40 h-40 bg-brand/20 rounded-full blur-2xl"></div>
-    </div>
-  </div>
-
-  <div class="border-y border-soft bg-white/50 py-5 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 flex items-center gap-4">
-      <span class="text-xs text-[var(--ink-muted)] font-bold whitespace-nowrap tracking-wider uppercase">Active in</span>
-      <div class="overflow-hidden flex-1">
-        <div class="flex gap-12 marquee whitespace-nowrap w-max">
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Mumbai</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Delhi NCR</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Bengaluru</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Pune</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Hyderabad</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Chennai</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Jaipur</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Ahmedabad</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Kolkata</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Mumbai</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Delhi NCR</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Bengaluru</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Pune</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Hyderabad</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Chennai</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Jaipur</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Ahmedabad</span>
-          <span class="font-display font-bold text-lg text-[var(--ink-muted)]/70">Kolkata</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Services -->
-<section id="services" class="py-20 lg:py-28">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-      <div class="reveal max-w-2xl">
-        <div class="text-xs font-bold tracking-widest text-brand uppercase mb-3">— What we fix</div>
-        <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight">
-          Every home problem.<br>
-          <span class="gradient-text">One trusted platform.</span>
-        </h2>
-      </div>
-      <p class="reveal text-[var(--ink-muted)] max-w-md">From a flickering bulb to a full bathroom fit-out — pick a category, see verified experts, book in 60 seconds.</p>
-    </div>
-    <div id="categoryGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-  </div>
-</section>
-
-<!-- How it works -->
-<section id="how" class="py-20 lg:py-28 bg-ink text-white relative overflow-hidden">
-  <div class="absolute top-0 right-0 w-96 h-96 bg-brand/20 rounded-full blur-3xl"></div>
-  <div class="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl" style="background:rgba(42,157,143,0.15)"></div>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 relative">
-    <div class="text-center max-w-2xl mx-auto mb-16">
-      <div class="text-xs font-bold tracking-widest text-brand uppercase mb-3 reveal">— How it works</div>
-      <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight reveal">Four steps. Zero friction.</h2>
-      <p class="text-white/60 mt-4 reveal">Booked in 60 seconds. Connected in minutes.</p>
-    </div>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="reveal">
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full hover:bg-white/10 transition group">
-          <div class="w-12 h-12 rounded-xl gradient-brand flex items-center justify-center mb-5 group-hover:scale-110 transition"><i data-lucide="mouse-pointer-click" class="w-6 h-6 text-white"></i></div>
-          <div class="text-xs text-white/40 font-bold mb-2 tracking-wider">STEP 01</div>
-          <h3 class="font-display font-bold text-xl mb-2">Pick a service</h3>
-          <p class="text-sm text-white/60 leading-relaxed">Browse 10+ categories. Describe your problem in your own words.</p>
-        </div>
-      </div>
-      <div class="reveal" style="transition-delay:0.1s">
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full hover:bg-white/10 transition group">
-          <div class="w-12 h-12 rounded-xl gradient-brand flex items-center justify-center mb-5 group-hover:scale-110 transition"><i data-lucide="users" class="w-6 h-6 text-white"></i></div>
-          <div class="text-xs text-white/40 font-bold mb-2 tracking-wider">STEP 02</div>
-          <h3 class="font-display font-bold text-xl mb-2">Choose your expert</h3>
-          <p class="text-sm text-white/60 leading-relaxed">Compare ratings, reviews, prices. Pick the one that fits.</p>
-        </div>
-      </div>
-      <div class="reveal" style="transition-delay:0.2s">
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full hover:bg-white/10 transition group">
-          <div class="w-12 h-12 rounded-xl gradient-brand flex items-center justify-center mb-5 group-hover:scale-110 transition"><i data-lucide="credit-card" class="w-6 h-6 text-white"></i></div>
-          <div class="text-xs text-white/40 font-bold mb-2 tracking-wider">STEP 03</div>
-          <h3 class="font-display font-bold text-xl mb-2">Pay ₹30 lead fee</h3>
-          <p class="text-sm text-white/60 leading-relaxed">Small connection fee. Worker's contact is unlocked instantly.</p>
-        </div>
-      </div>
-      <div class="reveal" style="transition-delay:0.3s">
-        <div class="bg-white/5 border border-white/10 rounded-2xl p-6 h-full hover:bg-white/10 transition group">
-          <div class="w-12 h-12 rounded-xl gradient-brand flex items-center justify-center mb-5 group-hover:scale-110 transition"><i data-lucide="message-circle" class="w-6 h-6 text-white"></i></div>
-          <div class="text-xs text-white/40 font-bold mb-2 tracking-wider">STEP 04</div>
-          <h3 class="font-display font-bold text-xl mb-2">Chat & relax</h3>
-          <p class="text-sm text-white/60 leading-relaxed">WhatsApp or call directly. Job done. Rate your experience.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Workers -->
-<section id="workers" class="py-20 lg:py-28">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-      <div class="reveal">
-        <div class="text-xs font-bold tracking-widest text-brand uppercase mb-3">— Meet the experts</div>
-        <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight">Verified workers, <span class="gradient-text">real reviews.</span></h2>
-      </div>
-      <p class="reveal text-[var(--ink-muted)] max-w-md">Every worker is ID-verified, background-checked, and rated by real customers like you.</p>
-    </div>
-    <div class="grid lg:grid-cols-12 gap-8">
-      <aside class="lg:col-span-3">
-        <div class="bg-white border border-soft rounded-2xl p-5 sticky top-24">
-          <div class="flex items-center justify-between mb-5">
-            <h3 class="font-display font-bold text-lg">Filters</h3>
-            <button onclick="resetFilters()" class="text-xs text-brand font-semibold hover:underline">Reset</button>
-          </div>
-          <div class="mb-5">
-            <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Category</label>
-            <select id="filterCategory" onchange="applyFilters()" class="input-field">
-              <option value="">All Categories</option>
-              <option>Electrician</option><option>Plumber</option><option>Carpenter</option>
-              <option>AC Repair</option><option>Painter</option><option>Home Cleaning</option><option>Pest Control</option>
-            </select>
-          </div>
-          <div class="mb-5">
-            <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Min Rating</label>
-            <div id="ratingFilter" class="flex gap-1.5">
-              <button data-rating="0" class="rating-btn active flex-1 py-2 text-xs font-semibold border border-soft rounded-lg">Any</button>
-              <button data-rating="4" class="rating-btn flex-1 py-2 text-xs font-semibold border border-soft rounded-lg">4.0+</button>
-              <button data-rating="4.5" class="rating-btn flex-1 py-2 text-xs font-semibold border border-soft rounded-lg">4.5+</button>
-              <button data-rating="4.8" class="rating-btn flex-1 py-2 text-xs font-semibold border border-soft rounded-lg">4.8+</button>
-            </div>
-          </div>
-          <div class="mb-5">
-            <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Sort by</label>
-            <select id="sortBy" onchange="applyFilters()" class="input-field">
-              <option value="rating">Top Rated</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="experience">Most Experienced</option>
-            </select>
-          </div>
-          <div class="mb-5">
-            <label class="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" id="availableOnly" onchange="applyFilters()" class="w-4 h-4 accent-[var(--brand)]">
-              <span class="text-sm font-medium">Available now only</span>
-            </label>
-          </div>
-          <div class="p-4 bg-soft rounded-xl">
-            <div class="flex items-center gap-2 mb-2">
-              <i data-lucide="shield-check" class="w-4 h-4 text-brand"></i>
-              <div class="text-xs font-bold">KaamWala Promise</div>
-            </div>
-            <p class="text-xs text-[var(--ink-muted)] leading-relaxed">Every worker is verified. If anything goes wrong, we've got your back.</p>
-          </div>
-        </div>
-      </aside>
-      <div class="lg:col-span-9">
-        <div id="workerGrid" class="grid sm:grid-cols-2 xl:grid-cols-3 gap-5"></div>
-        <div id="noResults" class="hidden text-center py-20">
-          <i data-lucide="search-x" class="w-12 h-12 mx-auto text-[var(--ink-muted)] mb-4"></i>
-          <p class="text-[var(--ink-muted)]">No workers match your filters. Try resetting.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Trust & Safety -->
-<section id="trust" class="py-20 lg:py-28" style="background:linear-gradient(180deg,var(--brand-soft) 0%,var(--bg) 100%)">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-      <div class="reveal">
-        <div class="text-xs font-bold tracking-widest text-brand uppercase mb-3">— Trust & Safety</div>
-        <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight mb-6">
-          The fair way to hire.<br>
-          <span class="gradient-text">For customers and workers.</span>
-        </h2>
-        <p class="text-[var(--ink-muted)] leading-relaxed mb-8">
-          We use a simple lead-fee model: pay ₹30 to unlock direct contact with a verified worker. No commission eating into their earnings. No surprise charges for you.
-        </p>
-        <div class="space-y-5">
-          <div class="flex gap-4">
-            <div class="w-11 h-11 rounded-xl bg-brand text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/30"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
-            <div>
-              <h4 class="font-bold mb-1">ID-verified workers</h4>
-              <p class="text-sm text-[var(--ink-muted)]">Aadhaar + police verification. Background checks for every worker on the platform.</p>
-            </div>
-          </div>
-          <div class="flex gap-4">
-            <div class="w-11 h-11 rounded-xl bg-brand text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/30"><i data-lucide="lock" class="w-5 h-5"></i></div>
-            <div>
-              <h4 class="font-bold mb-1">Contact released after payment</h4>
-              <p class="text-sm text-[var(--ink-muted)]">Worker's number is hidden until you pay the ₹30 lead fee. Fair for them, transparent for you.</p>
-            </div>
-          </div>
-          <div class="flex gap-4">
-            <div class="w-11 h-11 rounded-xl bg-brand text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-orange-500/30"><i data-lucide="refresh-cw" class="w-5 h-5"></i></div>
-            <div>
-              <h4 class="font-bold mb-1">Rating-driven accountability</h4>
-              <p class="text-sm text-[var(--ink-muted)]">Workers earn their rank through real customer reviews. Bad actors get delisted.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="reveal">
-        <div class="relative">
-          <div class="bg-white rounded-3xl shadow-2xl border border-soft p-7 max-w-md mx-auto">
-            <div class="flex items-center justify-between mb-5">
-              <div class="text-xs font-bold text-[var(--ink-muted)] uppercase tracking-wide">Lead Fee Receipt</div>
-              <div class="text-xs font-bold text-[var(--teal)] flex items-center gap-1 bg-teal/10 px-2 py-1 rounded-full" style="background:rgba(42,157,143,0.1)">
-                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>PAID
-              </div>
-            </div>
-            <div class="flex items-center gap-3 pb-5 border-b border-soft">
-              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" class="w-14 h-14 rounded-2xl object-cover" alt="">
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-1">
-                  <div class="font-bold">Imran Sheikh</div>
-                  <i data-lucide="badge-check" class="w-4 h-4 text-brand flex-shrink-0"></i>
-                </div>
-                <div class="text-xs text-[var(--ink-muted)]">Plumber • 12 yrs experience</div>
-              </div>
-              <div class="text-right">
-                <div class="text-xs text-[var(--ink-muted)]">Rating</div>
-                <div class="font-bold flex items-center gap-1"><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i>4.9</div>
-              </div>
-            </div>
-            <div class="py-5 border-b border-soft space-y-2.5 text-sm">
-              <div class="flex justify-between"><span class="text-[var(--ink-muted)]">Service</span><span class="font-semibold">Pipe leakage repair</span></div>
-              <div class="flex justify-between"><span class="text-[var(--ink-muted)]">Lead Fee</span><span class="font-semibold">₹30.00</span></div>
-              <div class="flex justify-between"><span class="text-[var(--ink-muted)]">Payment</span><span class="font-semibold">UPI • ••32</span></div>
-            </div>
-            <div class="pt-5">
-              <div class="text-xs font-bold text-[var(--ink-muted)] uppercase tracking-wide mb-3">Contact unlocked</div>
-              <div class="grid grid-cols-2 gap-3">
-                <a href="tel:+919876543210" class="flex items-center justify-center gap-2 text-white font-semibold py-3 rounded-xl text-sm hover:opacity-90 transition" style="background:var(--teal)">
-                  <i data-lucide="phone" class="w-4 h-4"></i>Call
-                </a>
-                <a href="https://wa.me/919876543210" target="_blank" class="flex items-center justify-center gap-2 bg-[#25D366] text-white font-semibold py-3 rounded-xl text-sm hover:opacity-90 transition">
-                  <i data-lucide="message-circle" class="w-4 h-4"></i>WhatsApp
-                </a>
-              </div>
-              <div class="mt-3 text-center text-xs text-[var(--ink-muted)]">+91 98765 43210</div>
-            </div>
-          </div>
-          <div class="absolute -top-4 -right-4 bg-ink text-white rounded-2xl px-4 py-3 shadow-xl">
-            <div class="text-xs text-white/60">Total cost</div>
-            <div class="font-display font-extrabold text-xl">₹30 only</div>
-          </div>
-          <div class="absolute -bottom-6 -left-6 bg-white border border-soft rounded-2xl px-4 py-3 shadow-xl flex items-center gap-2">
-            <div class="w-9 h-9 rounded-full bg-soft flex items-center justify-center"><i data-lucide="badge-check" class="w-5 h-5 text-brand"></i></div>
-            <div>
-              <div class="text-xs font-bold leading-tight">Verified</div>
-              <div class="text-[10px] text-[var(--ink-muted)]">Aadhaar + Police</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Admin panel -->
-<section id="admin" class="py-20 lg:py-28">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="text-center max-w-2xl mx-auto mb-12">
-      <div class="text-xs font-bold tracking-widest text-brand uppercase mb-3 reveal">— For operators</div>
-      <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight reveal">Run your marketplace on <span class="gradient-text">one dashboard.</span></h2>
-      <p class="text-[var(--ink-muted)] mt-4 reveal">Manage workers, track bookings, and grow your city — all from a simple admin panel built for non-tech founders.</p>
-    </div>
-    <div class="reveal bg-white border border-soft rounded-3xl shadow-2xl shadow-black/5 overflow-hidden">
-      <div class="bg-ink text-white px-5 py-3 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
-          <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
-          <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
-          <span class="ml-3 text-xs text-white/60">admin.kaamwala.in</span>
-        </div>
-        <div class="flex items-center gap-3 text-xs text-white/60">
-          <span class="hidden sm:inline">Mumbai zone</span>
-          <span class="w-px h-4 bg-white/20 hidden sm:block"></span>
-          <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[var(--teal)] animate-pulse"></span>Live</span>
-        </div>
-      </div>
-      <div class="grid lg:grid-cols-12">
-        <div class="lg:col-span-2 border-r border-soft p-4 hidden lg:block">
-          <div class="space-y-1">
-            <a class="flex items-center gap-2 px-3 py-2 rounded-lg bg-soft text-brand font-semibold text-sm"><i data-lucide="layout-dashboard" class="w-4 h-4"></i>Dashboard</a>
-            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-[var(--ink-muted)] hover:bg-soft text-sm cursor-pointer"><i data-lucide="calendar" class="w-4 h-4"></i>Bookings</a>
-            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-[var(--ink-muted)] hover:bg-soft text-sm cursor-pointer"><i data-lucide="users" class="w-4 h-4"></i>Workers</a>
-            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-[var(--ink-muted)] hover:bg-soft text-sm cursor-pointer"><i data-lucide="indian-rupee" class="w-4 h-4"></i>Revenue</a>
-            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-[var(--ink-muted)] hover:bg-soft text-sm cursor-pointer"><i data-lucide="star" class="w-4 h-4"></i>Reviews</a>
-            <a class="flex items-center gap-2 px-3 py-2 rounded-lg text-[var(--ink-muted)] hover:bg-soft text-sm cursor-pointer"><i data-lucide="settings" class="w-4 h-4"></i>Settings</a>
-          </div>
-        </div>
-        <div class="lg:col-span-10 p-5 lg:p-7">
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-            <div class="bg-soft rounded-2xl p-4">
-              <div class="flex items-center justify-between mb-2">
-                <div class="text-xs text-[var(--ink-muted)] font-semibold">Today's Bookings</div>
-                <i data-lucide="calendar-check" class="w-4 h-4 text-brand"></i>
-              </div>
-              <div class="font-display text-2xl font-extrabold">147</div>
-              <div class="text-xs font-semibold flex items-center gap-1 mt-1" style="color:var(--teal)"><i data-lucide="trending-up" class="w-3 h-3"></i>+12% vs yesterday</div>
-            </div>
-            <div class="bg-soft rounded-2xl p-4">
-              <div class="flex items-center justify-between mb-2">
-                <div class="text-xs text-[var(--ink-muted)] font-semibold">Revenue (today)</div>
-                <i data-lucide="indian-rupee" class="w-4 h-4 text-brand"></i>
-              </div>
-              <div class="font-display text-2xl font-extrabold">₹4,410</div>
-              <div class="text-xs font-semibold flex items-center gap-1 mt-1" style="color:var(--teal)"><i data-lucide="trending-up" class="w-3 h-3"></i>+8.4%</div>
-            </div>
-            <div class="bg-soft rounded-2xl p-4">
-              <div class="flex items-center justify-between mb-2">
-                <div class="text-xs text-[var(--ink-muted)] font-semibold">Active Workers</div>
-                <i data-lucide="user-check" class="w-4 h-4 text-brand"></i>
-              </div>
-              <div class="font-display text-2xl font-extrabold">892</div>
-              <div class="text-xs text-[var(--ink-muted)] font-semibold mt-1">of 1,247 total</div>
-            </div>
-            <div class="bg-soft rounded-2xl p-4">
-              <div class="flex items-center justify-between mb-2">
-                <div class="text-xs text-[var(--ink-muted)] font-semibold">Avg Rating</div>
-                <i data-lucide="star" class="w-4 h-4 text-brand"></i>
-              </div>
-              <div class="font-display text-2xl font-extrabold">4.82</div>
-              <div class="text-xs text-[var(--ink-muted)] font-semibold mt-1">8,234 reviews</div>
-            </div>
-          </div>
-          <div class="bg-white border border-soft rounded-2xl overflow-hidden">
-            <div class="px-5 py-4 border-b border-soft flex items-center justify-between">
-              <h4 class="font-bold">Recent Bookings</h4>
-              <button class="text-xs font-semibold text-brand">View all →</button>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead class="bg-[var(--bg)] text-[var(--ink-muted)] text-xs uppercase tracking-wide">
-                  <tr>
-                    <th class="text-left px-5 py-3 font-semibold">Customer</th>
-                    <th class="text-left px-5 py-3 font-semibold">Worker</th>
-                    <th class="text-left px-5 py-3 font-semibold hidden md:table-cell">Service</th>
-                    <th class="text-left px-5 py-3 font-semibold hidden lg:table-cell">Area</th>
-                    <th class="text-left px-5 py-3 font-semibold">Fee</th>
-                    <th class="text-left px-5 py-3 font-semibold">Status</th>
-                  </tr>
-                </thead>
-                <tbody id="bookingTable"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-<section class="py-20 lg:py-28 bg-ink text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="text-center max-w-2xl mx-auto mb-14">
-      <div class="text-xs font-bold tracking-widest text-brand uppercase mb-3 reveal">— Real stories</div>
-      <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight reveal">Loved by homes.<br><span class="text-brand">Trusted by workers.</span></h2>
-    </div>
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="reveal bg-white/5 border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition">
-        <div class="flex gap-1 mb-5"><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i></div>
-        <p class="text-white/90 leading-relaxed mb-6">"AC broke at 11 PM. Found a verified technician on KaamWala in 2 minutes. He was at my door by midnight. Lifesaver."</p>
-        <div class="flex items-center gap-3">
-          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop" class="w-11 h-11 rounded-full object-cover" alt="">
-          <div>
-            <div class="font-bold text-sm">Priya Sharma</div>
-            <div class="text-xs text-white/50">Bandra, Mumbai</div>
-          </div>
-        </div>
-      </div>
-      <div class="reveal bg-white/5 border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition" style="transition-delay:0.1s">
-        <div class="flex gap-1 mb-5"><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i></div>
-        <p class="text-white/90 leading-relaxed mb-6">"As a carpenter, I was paying 25% commission on other apps. Here I pay ₹30 per lead and keep everything else. Finally fair."</p>
-        <div class="flex items-center gap-3">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="w-11 h-11 rounded-full object-cover" alt="">
-          <div>
-            <div class="font-bold text-sm">Mohan Das</div>
-            <div class="text-xs text-white/50">Carpenter, Pune</div>
-          </div>
-        </div>
-      </div>
-      <div class="reveal bg-white/5 border border-white/10 rounded-3xl p-7 hover:bg-white/10 transition" style="transition-delay:0.2s">
-        <div class="flex gap-1 mb-5"><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i></div>
-        <p class="text-white/90 leading-relaxed mb-6">"The ₹30 lead fee model is genius. I know exactly what I'm paying. No hidden cuts. The plumber they sent was punctual and skilled."</p>
-        <div class="flex items-center gap-3">
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop" class="w-11 h-11 rounded-full object-cover" alt="">
-          <div>
-            <div class="font-bold text-sm">Arjun Mehta</div>
-            <div class="text-xs text-white/50">Koramangala, Bengaluru</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="py-16 lg:py-24">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="gradient-brand rounded-3xl p-8 sm:p-12 lg:p-16 text-white relative overflow-hidden">
-      <div class="absolute -top-20 -right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-      <div class="relative grid lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 class="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-[1.1]">Got a leaky tap?<br>Don't wait till Monday.</h2>
-          <p class="mt-4 text-white/85 text-lg max-w-md">Book a verified expert in 60 seconds. Pay only ₹30 to connect. Available 7 AM to 10 PM, every day.</p>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-3 lg:justify-end">
-          <button onclick="openBooking()" class="bg-white text-[var(--brand)] font-bold px-7 py-4 rounded-full hover:scale-105 transition flex items-center justify-center gap-2 shadow-xl">
-            <i data-lucide="zap" class="w-5 h-5"></i>Book a Worker
-          </button>
-          <a href="https://wa.me/919876543210" target="_blank" class="border-2 border-white/40 text-white font-bold px-7 py-4 rounded-full hover:bg-white/10 transition flex items-center justify-center gap-2">
-            <i data-lucide="message-circle" class="w-5 h-5"></i>Chat with us
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-[var(--bg)] border-t border-soft py-14">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-10 mb-10">
-      <div class="lg:col-span-2">
-        <a href="#" class="flex items-center gap-2.5 mb-4">
-          <div class="w-10 h-10 rounded-xl gradient-brand flex items-center justify-center"><i data-lucide="wrench" class="w-5 h-5 text-white"></i></div>
           <div class="leading-none">
-            <div class="font-display font-extrabold text-xl tracking-tight">KaamWala</div>
-            <div class="text-[10px] text-[var(--ink-muted)] font-semibold tracking-widest uppercase">Local Experts</div>
+            <div class="font-display text-xl font-extrabold tracking-tight">KaamWala</div>
+            <div class="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Local Experts</div>
           </div>
         </a>
-        <p class="text-sm text-[var(--ink-muted)] max-w-sm mb-5">India's trust-first marketplace for home services. Connecting verified workers with households — fairly, transparently, instantly.</p>
-        <div class="flex gap-3">
-          <a class="w-10 h-10 rounded-full bg-white border border-soft flex items-center justify-center hover:border-brand hover:text-brand transition cursor-pointer"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-          <a class="w-10 h-10 rounded-full bg-white border border-soft flex items-center justify-center hover:border-brand hover:text-brand transition cursor-pointer"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-          <a class="w-10 h-10 rounded-full bg-white border border-soft flex items-center justify-center hover:border-brand hover:text-brand transition cursor-pointer"><i data-lucide="twitter" class="w-4 h-4"></i></a>
-          <a class="w-10 h-10 rounded-full bg-white border border-soft flex items-center justify-center hover:border-brand hover:text-brand transition cursor-pointer"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+        <div class="hidden items-center gap-7 text-sm font-bold lg:flex">
+          <a href="#services" class="hover:text-brand">Services</a>
+          <a href="#workers" class="hover:text-brand">Workers</a>
+          <a href="#how" class="hover:text-brand">How it Works</a>
+          <a href="#trust" class="hover:text-brand">Trust</a>
         </div>
+        <div id="authArea" class="flex items-center gap-2"></div>
       </div>
-      <div>
-        <h5 class="font-bold mb-4 text-sm">Services</h5>
-        <ul class="space-y-2.5 text-sm text-[var(--ink-muted)]">
-          <li><a href="#" class="hover:text-brand transition">Electrician</a></li>
-          <li><a href="#" class="hover:text-brand transition">Plumber</a></li>
-          <li><a href="#" class="hover:text-brand transition">Carpenter</a></li>
-          <li><a href="#" class="hover:text-brand transition">AC Repair</a></li>
-          <li><a href="#" class="hover:text-brand transition">Painter</a></li>
-          <li><a href="#services" class="hover:text-brand transition font-semibold text-[var(--ink)]">All services →</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="font-bold mb-4 text-sm">Company</h5>
-        <ul class="space-y-2.5 text-sm text-[var(--ink-muted)]">
-          <li><a href="#" class="hover:text-brand transition">About us</a></li>
-          <li><a href="#workers" class="hover:text-brand transition">Become a worker</a></li>
-          <li><a href="#trust" class="hover:text-brand transition">Trust & Safety</a></li>
-          <li><a href="#" class="hover:text-brand transition">Careers</a></li>
-          <li><a href="#" class="hover:text-brand transition">Press</a></li>
-        </ul>
-      </div>
-      <div>
-        <h5 class="font-bold mb-4 text-sm">Get the app</h5>
-        <p class="text-sm text-[var(--ink-muted)] mb-4">Book on the go. Track your worker in real-time.</p>
-        <div class="flex flex-col gap-2">
-          <a href="#" class="flex items-center gap-2 bg-ink text-white px-4 py-2.5 rounded-xl text-sm hover:opacity-90 transition">
-            <i data-lucide="apple" class="w-5 h-5"></i>
-            <div class="leading-tight">
-              <div class="text-[10px] text-white/60">Download on</div>
-              <div class="font-bold text-xs">App Store</div>
+    </nav>
+
+    <main>
+      <section class="relative overflow-hidden">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:py-20">
+          <div class="lg:col-span-7">
+            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-brand/20 bg-soft px-3 py-1.5 text-xs font-bold text-brand">
+              <span class="h-2 w-2 rounded-full bg-brand"></span>
+              Phone OTP login, city-wise verified workers
             </div>
-          </a>
-          <a href="#" class="flex items-center gap-2 bg-ink text-white px-4 py-2.5 rounded-xl text-sm hover:opacity-90 transition">
-            <i data-lucide="play" class="w-5 h-5"></i>
-            <div class="leading-tight">
-              <div class="text-[10px] text-white/60">Get it on</div>
-              <div class="font-bold text-xs">Google Play</div>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="pt-8 border-t border-soft flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--ink-muted)]">
-      <div>© 2024 KaamWala Technologies Pvt. Ltd. Made in Mumbai 🇮🇳</div>
-      <div class="flex gap-6">
-        <a href="#" class="hover:text-brand transition">Privacy</a>
-        <a href="#" class="hover:text-brand transition">Terms</a>
-        <a href="#" class="hover:text-brand transition">Refund Policy</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- Worker Profile Modal -->
-<div id="workerModal" class="hidden fixed inset-0 z-50 modal-backdrop items-center justify-center p-4 overflow-y-auto">
-  <div id="workerModalContent" class="bg-white rounded-3xl max-w-3xl w-full modal-enter my-8 overflow-hidden"></div>
-</div>
-
-<!-- Booking Modal -->
-<div id="bookingModal" class="hidden fixed inset-0 z-50 modal-backdrop items-center justify-center p-4 overflow-y-auto">
-  <div id="bookingModalContent" class="bg-white rounded-3xl max-w-2xl w-full modal-enter my-8 overflow-hidden"></div>
-</div>
-
-<!-- Toast -->
-<div id="toast" class="hidden fixed bottom-6 right-6 z-50 bg-ink text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center gap-2.5">
-  <i data-lucide="check-circle" class="w-5 h-5" style="color:var(--teal)"></i>
-  <span id="toastMsg" class="text-sm font-medium">Done!</span>
-</div>
-
-<script>
-  // ============ DATA ============
-  const categories = [
-    { name: 'Electrician', icon: 'zap', desc: 'Wiring, switches, MCB', price: 149, color: '#FFC93C' },
-    { name: 'Plumber', icon: 'droplet', desc: 'Taps, pipes, leakage', price: 129, color: '#2A9D8F' },
-    { name: 'Carpenter', icon: 'hammer', desc: 'Furniture, doors, locks', price: 199, color: '#FF6B35' },
-    { name: 'AC Repair', icon: 'wind', desc: 'Service, gas, install', price: 399, color: '#3B82F6' },
-    { name: 'Painter', icon: 'paint-roller', desc: 'Walls, exterior, polish', price: 249, color: '#A855F7' },
-    { name: 'Home Cleaning', icon: 'sparkles', desc: 'Deep, sofa, bathroom', price: 299, color: '#EC4899' },
-    { name: 'Pest Control', icon: 'bug', desc: 'Cockroach, termite, rat', price: 499, color: '#10B981' },
-    { name: 'Appliance Repair', icon: 'washing-machine', desc: 'Washer, fridge, microwave', price: 199, color: '#F59E0B' }
-  ];
-
-  const workers = [
-    { id:1, name:'Ramesh Kumar', cat:'Electrician', img:'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&h=400&fit=crop', rating:4.9, reviews:234, exp:8, jobs:412, area:'Andheri West', price:149, skills:['Wiring','Switchboard','Inverter','MCB'], verified:true, available:true },
-    { id:2, name:'Imran Sheikh', cat:'Plumber', img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop', rating:4.9, reviews:312, exp:12, jobs:689, area:'Bandra East', price:129, skills:['Leakage','Pipe fitting','Geyser','Bathroom'], verified:true, available:true },
-    { id:3, name:'Mohan Das', cat:'Carpenter', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop', rating:4.7, reviews:156, exp:15, jobs:523, area:'Powai', price:199, skills:['Furniture repair','Door fitting','Modular kitchen','Locks'], verified:true, available:false },
-    { id:4, name:'Suresh Patil', cat:'AC Repair', img:'https://images.unsplash.com/photo-1521119989659-a83eee488004?w=400&h=400&fit=crop', rating:4.8, reviews:198, exp:10, jobs:445, area:'Goregaon', price:399, skills:['Split AC','Window AC','Gas refill','Installation'], verified:true, available:true },
-    { id:5, name:'Vijay Singh', cat:'Electrician', img:'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=400&h=400&fit=crop', rating:4.6, reviews:89, exp:6, jobs:167, area:'Dadar', price:139, skills:['Wiring','Fan repair','Light fitting','Inverter'], verified:true, available:true },
-    { id:6, name:'Anil Verma', cat:'Painter', img:'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=400&h=400&fit=crop', rating:4.8, reviews:142, exp:14, jobs:298, area:'Thane West', price:249, skills:['Interior','Exterior','Texture','Waterproofing'], verified:true, available:true },
-    { id:7, name:'Rajesh Gupta', cat:'Plumber', img:'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?w=400&h=400&fit=crop', rating:4.5, reviews:78, exp:5, jobs:134, area:'Vile Parle', price:119, skills:['Tap repair','Drainage','Sanitary','Geyser'], verified:true, available:false },
-    { id:8, name:'Deepak Yadav', cat:'Home Cleaning', img:'https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=400&h=400&fit=crop', rating:4.7, reviews:203, exp:7, jobs:512, area:'Andheri East', price:299, skills:['Deep clean','Sofa','Bathroom','Kitchen'], verified:true, available:true },
-    { id:9, name:'Kamal Hassan', cat:'Carpenter', img:'https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400&h=400&fit=crop', rating:4.9, reviews:187, exp:18, jobs:634, area:'Malad', price:219, skills:['Custom furniture','Polish','Doors','Woodwork'], verified:true, available:true },
-    { id:10, name:'Prakash Nair', cat:'AC Repair', img:'https://images.unsplash.com/photo-1545996124-0501ebae84d0?w=400&h=400&fit=crop', rating:4.6, reviews:124, exp:9, jobs:278, area:'Kandivali', price:379, skills:['AC service','Cooling issues','Gas refill','AMC'], verified:true, available:true },
-    { id:11, name:'Shahid Khan', cat:'Pest Control', img:'https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=400&h=400&fit=crop', rating:4.8, reviews:167, exp:11, jobs:345, area:'Borivali', price:499, skills:['Cockroach','Termite','Bed bugs','Rodents'], verified:true, available:true },
-    { id:12, name:'Sandeep More', cat:'Appliance Repair', img:'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop', rating:4.7, reviews:145, exp:13, jobs:387, area:'Dombivli', price:199, skills:['Washing machine','Refrigerator','Microwave','Oven'], verified:true, available:false }
-  ];
-
-  const bookings = [
-    { customer:'Priya S.', worker:'Ramesh K.', service:'Electrician', area:'Bandra', fee:30, status:'Completed' },
-    { customer:'Arjun M.', worker:'Imran S.', service:'Plumber', area:'Koramangala', fee:30, status:'In Progress' },
-    { customer:'Neha R.', worker:'Suresh P.', service:'AC Repair', area:'Powai', fee:30, status:'Assigned' },
-    { customer:'Rohit G.', worker:'Mohan D.', service:'Carpenter', area:'Andheri', fee:30, status:'Completed' },
-    { customer:'Sara K.', worker:'Deepak Y.', service:'Cleaning', area:'Thane', fee:30, status:'In Progress' }
-  ];
-
-  // ============ STATE ============
-  let currentFilters = { category:'', rating:0, sort:'rating', availableOnly:false };
-  let bookingState = { step:1, service:'', problem:'', address:'', date:'', slot:'', name:'', phone:'' };
-
-  // ============ RENDER ============
-  function renderCategories() {
-    const grid = document.getElementById('categoryGrid');
-    grid.innerHTML = categories.map(c => `
-      <button onclick="selectCategory('${c.name}')" class="group reveal text-left bg-white border border-soft rounded-2xl p-5 card-hover">
-        <div class="flex items-start justify-between mb-4">
-          <div class="icon-tile w-12 h-12 rounded-xl flex items-center justify-center" style="background:${c.color}1A;color:${c.color}">
-            <i data-lucide="${c.icon}" class="w-6 h-6"></i>
-          </div>
-          <i data-lucide="arrow-up-right" class="w-5 h-5 text-[var(--ink-muted)] opacity-0 group-hover:opacity-100 transition"></i>
-        </div>
-        <div class="font-display font-bold text-lg mb-1">${c.name}</div>
-        <div class="text-xs text-[var(--ink-muted)] mb-3">${c.desc}</div>
-        <div class="flex items-center justify-between pt-3 border-t border-soft">
-          <div><span class="text-xs text-[var(--ink-muted)]">from</span> <span class="font-bold">₹${c.price}</span></div>
-          <div class="text-xs font-semibold text-brand">Book →</div>
-        </div>
-      </button>
-    `).join('');
-    lucide.createIcons();
-    observeReveal();
-  }
-
-  function renderWorkers(list) {
-    const grid = document.getElementById('workerGrid');
-    const noResults = document.getElementById('noResults');
-    if (list.length === 0) {
-      grid.innerHTML = '';
-      noResults.classList.remove('hidden');
-      return;
-    }
-    noResults.classList.add('hidden');
-    grid.innerHTML = list.map(w => `
-      <div class="bg-white border border-soft rounded-2xl overflow-hidden card-hover flex flex-col">
-        <div class="relative">
-          <img src="${w.img}" alt="${w.name}" class="w-full h-44 object-cover">
-          <div class="absolute top-3 left-3 flex gap-2">
-            ${w.verified ? `<span class="bg-white/95 backdrop-blur px-2 py-1 rounded-full text-[10px] font-bold flex items-center gap-1"><i data-lucide="badge-check" class="w-3 h-3 text-brand"></i>Verified</span>` : ''}
-          </div>
-          <div class="absolute top-3 right-3">
-            ${w.available ? `<span class="bg-white/95 backdrop-blur px-2 py-1 rounded-full text-[10px] font-bold flex items-center gap-1" style="color:var(--teal)"><span class="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-pulse"></span>Online</span>` : `<span class="bg-white/95 backdrop-blur px-2 py-1 rounded-full text-[10px] font-bold text-[var(--ink-muted)]">Busy</span>`}
-          </div>
-        </div>
-        <div class="p-4 flex-1 flex flex-col">
-          <div class="flex items-start justify-between mb-1">
-            <div class="font-bold leading-tight">${w.name}</div>
-            <div class="flex items-center gap-1 text-sm"><i data-lucide="star" class="w-3.5 h-3.5 fill-[var(--gold)] text-[var(--gold)]"></i><span class="font-bold">${w.rating}</span></div>
-          </div>
-          <div class="text-xs text-[var(--ink-muted)] mb-3">${w.cat} • ${w.exp} yrs exp</div>
-          <div class="flex flex-wrap gap-1.5 mb-4">
-            ${w.skills.slice(0,3).map(s => `<span class="text-[10px] font-semibold px-2 py-1 bg-soft rounded-md text-[var(--ink-muted)]">${s}</span>`).join('')}
-          </div>
-          <div class="flex items-center justify-between text-xs text-[var(--ink-muted)] mb-4 pb-4 border-b border-soft">
-            <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3 h-3"></i>${w.area}</span>
-            <span class="flex items-center gap-1"><i data-lucide="briefcase" class="w-3 h-3"></i>${w.jobs} jobs</span>
-          </div>
-          <div class="flex items-end justify-between mt-auto">
-            <div>
-              <div class="text-[10px] text-[var(--ink-muted)]">Starting at</div>
-              <div class="font-display font-bold text-xl">₹${w.price}</div>
-            </div>
-            <button onclick="openWorkerProfile(${w.id})" class="bg-ink text-white text-xs font-semibold px-4 py-2.5 rounded-xl hover:opacity-90 transition flex items-center gap-1.5">
-              View Profile <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    `).join('');
-    lucide.createIcons();
-  }
-
-  function renderBookings() {
-    const tbody = document.getElementById('bookingTable');
-    const statusColors = {
-      'Completed': 'background:rgba(42,157,143,0.12);color:var(--teal)',
-      'In Progress': 'background:rgba(255,201,60,0.18);color:#B8860B',
-      'Assigned': 'background:rgba(255,107,53,0.12);color:var(--brand)'
-    };
-    tbody.innerHTML = bookings.map(b => `
-      <tr class="border-t border-soft hover:bg-[var(--bg)] transition">
-        <td class="px-5 py-3.5 font-semibold">${b.customer}</td>
-        <td class="px-5 py-3.5">${b.worker}</td>
-        <td class="px-5 py-3.5 hidden md:table-cell text-[var(--ink-muted)]">${b.service}</td>
-        <td class="px-5 py-3.5 hidden lg:table-cell text-[var(--ink-muted)]">${b.area}</td>
-        <td class="px-5 py-3.5 font-semibold">₹${b.fee}</td>
-        <td class="px-5 py-3.5"><span class="text-[10px] font-bold px-2.5 py-1 rounded-full" style="${statusColors[b.status]}">${b.status}</span></td>
-      </tr>
-    `).join('');
-  }
-
-  // ============ FILTERS ============
-  function applyFilters() {
-    currentFilters.category = document.getElementById('filterCategory').value;
-    currentFilters.sort = document.getElementById('sortBy').value;
-    currentFilters.availableOnly = document.getElementById('availableOnly').checked;
-    let list = workers.filter(w => {
-      if (currentFilters.category && w.cat !== currentFilters.category) return false;
-      if (w.rating < currentFilters.rating) return false;
-      if (currentFilters.availableOnly && !w.available) return false;
-      return true;
-    });
-    if (currentFilters.sort === 'rating') list.sort((a,b) => b.rating - a.rating);
-    if (currentFilters.sort === 'price-low') list.sort((a,b) => a.price - b.price);
-    if (currentFilters.sort === 'price-high') list.sort((a,b) => b.price - a.price);
-    if (currentFilters.sort === 'experience') list.sort((a,b) => b.exp - a.exp);
-    renderWorkers(list);
-  }
-
-  function resetFilters() {
-    currentFilters = { category:'', rating:0, sort:'rating', availableOnly:false };
-    document.getElementById('filterCategory').value = '';
-    document.getElementById('sortBy').value = 'rating';
-    document.getElementById('availableOnly').checked = false;
-    document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-rating="0"]').classList.add('active');
-    renderWorkers(workers);
-  }
-
-  function selectCategory(cat) {
-    document.getElementById('filterCategory').value = cat;
-    applyFilters();
-    document.getElementById('workers').scrollIntoView({ behavior:'smooth' });
-  }
-
-  // ============ WORKER PROFILE MODAL ============
-  function openWorkerProfile(id) {
-    const w = workers.find(x => x.id === id);
-    const modal = document.getElementById('workerModal');
-    const content = document.getElementById('workerModalContent');
-    content.innerHTML = `
-      <div class="relative">
-        <img src="${w.img}" alt="${w.name}" class="w-full h-56 sm:h-64 object-cover">
-        <button onclick="closeModal('workerModal')" class="absolute top-4 right-4 w-10 h-10 bg-white/95 backdrop-blur rounded-full flex items-center justify-center hover:bg-white transition"><i data-lucide="x" class="w-5 h-5"></i></button>
-        <div class="absolute bottom-4 left-5 flex gap-2">
-          ${w.verified ? `<span class="bg-white/95 backdrop-blur px-2.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1"><i data-lucide="badge-check" class="w-3.5 h-3.5 text-brand"></i>Verified</span>`:''}
-          ${w.available ? `<span class="bg-white/95 backdrop-blur px-2.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1" style="color:var(--teal)"><span class="w-2 h-2 rounded-full bg-[var(--teal)] animate-pulse"></span>Available now</span>`:`<span class="bg-white/95 backdrop-blur px-2.5 py-1.5 rounded-full text-xs font-bold text-[var(--ink-muted)]">Currently busy</span>`}
-        </div>
-      </div>
-      <div class="p-6 sm:p-8">
-        <div class="flex items-start justify-between mb-2">
-          <div>
-            <h3 class="font-display font-extrabold text-2xl sm:text-3xl">${w.name}</h3>
-            <div class="text-sm text-[var(--ink-muted)] mt-1">${w.cat} • ${w.area}</div>
-          </div>
-          <div class="text-right">
-            <div class="flex items-center gap-1 justify-end"><i data-lucide="star" class="w-5 h-5 fill-[var(--gold)] text-[var(--gold)]"></i><span class="font-display font-bold text-2xl">${w.rating}</span></div>
-            <div class="text-xs text-[var(--ink-muted)]">${w.reviews} reviews</div>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-3 gap-3 my-6">
-          <div class="bg-soft rounded-xl p-3 text-center">
-            <div class="font-display font-extrabold text-xl">${w.exp}</div>
-            <div class="text-[10px] text-[var(--ink-muted)] font-semibold uppercase tracking-wide mt-0.5">Yrs Exp</div>
-          </div>
-          <div class="bg-soft rounded-xl p-3 text-center">
-            <div class="font-display font-extrabold text-xl">${w.jobs}</div>
-            <div class="text-[10px] text-[var(--ink-muted)] font-semibold uppercase tracking-wide mt-0.5">Jobs Done</div>
-          </div>
-          <div class="bg-soft rounded-xl p-3 text-center">
-            <div class="font-display font-extrabold text-xl">${w.reviews}</div>
-            <div class="text-[10px] text-[var(--ink-muted)] font-semibold uppercase tracking-wide mt-0.5">Reviews</div>
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <h4 class="font-bold text-sm mb-3">Skills & Expertise</h4>
-          <div class="flex flex-wrap gap-2">
-            ${w.skills.map(s => `<span class="chip active">${s}</span>`).join('')}
-          </div>
-        </div>
-
-        <div class="mb-6">
-          <h4 class="font-bold text-sm mb-3">Recent Reviews</h4>
-          <div class="space-y-3">
-            <div class="border border-soft rounded-xl p-4">
-              <div class="flex items-center justify-between mb-1.5">
-                <div class="font-semibold text-sm">Aarav P.</div>
-                <div class="flex gap-0.5"><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i></div>
+            <h1 class="font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              Find <span class="gradient-text">trusted experts</span> for every job at home.
+            </h1>
+            <p class="mt-6 max-w-xl text-lg leading-8 text-neutral-600">
+              Lucknow, Unnao, Kanpur, Basti aur Gorakhpur ke electricians, plumbers, carpenters aur cleaners. Verified workers, simple booking, local support.
+            </p>
+            <div class="mt-8 flex max-w-2xl flex-col gap-2 rounded-2xl border border-line bg-white p-2 shadow-xl shadow-black/5 sm:flex-row">
+              <div class="flex flex-1 items-center gap-2 px-3">
+                <i data-lucide="search" class="h-5 w-5 text-neutral-500"></i>
+                <input id="heroSearch" type="text" placeholder="Search plumber, electrician, cleaner" class="w-full bg-transparent py-3 text-sm outline-none" />
               </div>
-              <p class="text-sm text-[var(--ink-muted)]">Very professional and quick. Fixed the issue in 20 mins. Highly recommend!</p>
-            </div>
-            <div class="border border-soft rounded-xl p-4">
-              <div class="flex items-center justify-between mb-1.5">
-                <div class="font-semibold text-sm">Meera J.</div>
-                <div class="flex gap-0.5"><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i><i data-lucide="star" class="w-3 h-3 fill-[var(--gold)] text-[var(--gold)]"></i></div>
+              <div class="flex items-center gap-2 border-line px-3 sm:border-l">
+                <i data-lucide="map-pin" class="h-5 w-5 text-neutral-500"></i>
+                <select id="heroCity" data-city-options class="bg-transparent py-3 text-sm font-bold outline-none"></select>
               </div>
-              <p class="text-sm text-[var(--ink-muted)]">Arrived on time, explained the problem clearly. Fair pricing. Will book again.</p>
+              <button id="heroSearchBtn" class="btn-primary rounded-xl">
+                Find Experts
+                <i data-lucide="arrow-right" class="h-4 w-4"></i>
+              </button>
             </div>
-          </div>
-        </div>
-
-        <div class="bg-soft rounded-2xl p-4 flex items-center justify-between mb-5">
-          <div>
-            <div class="text-xs text-[var(--ink-muted)]">Starting visit price</div>
-            <div class="font-display font-extrabold text-2xl">₹${w.price}<span class="text-sm font-normal text-[var(--ink-muted)]"> + ₹30 lead fee</span></div>
-          </div>
-          <div class="text-xs text-[var(--ink-muted)] text-right max-w-[140px]">Pay lead fee to unlock direct contact</div>
-        </div>
-
-        <div class="flex gap-3">
-          <button onclick="closeModal('workerModal'); openBooking('${w.cat}', ${w.id});" class="flex-1 gradient-brand text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-orange-500/30 transition">
-            <i data-lucide="zap" class="w-5 h-5"></i>Book Now
-          </button>
-          <button onclick="closeModal('workerModal')" class="px-5 border border-soft font-semibold rounded-xl hover:bg-soft transition">Close</button>
-        </div>
-      </div>
-    `;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    lucide.createIcons();
-  }
-
-  // ============ BOOKING MODAL ============
-  function openBooking(service, workerId) {
-    bookingState = { step:1, service: service || '', workerId: workerId || null, problem:'', address:'', date:'', slot:'', name:'', phone:'' };
-    renderBooking();
-    const modal = document.getElementById('bookingModal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    lucide.createIcons();
-  }
-
-  function renderBooking() {
-    const content = document.getElementById('bookingModalContent');
-    const steps = ['Service','Details','Contact','Pay'];
-    content.innerHTML = `
-      <div class="p-6 sm:p-8">
-        <div class="flex items-center justify-between mb-6">
-          <div>
-            <h3 class="font-display font-extrabold text-xl sm:text-2xl">Book a Service</h3>
-            <p class="text-xs text-[var(--ink-muted)] mt-0.5">Step ${bookingState.step} of 4</p>
-          </div>
-          <button onclick="closeModal('bookingModal')" class="w-10 h-10 rounded-full bg-soft flex items-center justify-center hover:bg-[var(--border)] transition"><i data-lucide="x" class="w-5 h-5"></i></button>
-        </div>
-
-        <!-- Step indicator -->
-        <div class="flex items-center mb-8">
-          ${steps.map((s,i) => `
-            <div class="flex items-center ${i < steps.length-1 ? 'flex-1' : ''}">
-              <div class="step-dot ${i+1===bookingState.step?'active':i+1<bookingState.step?'done':''} w-8 h-8 rounded-full border-2 border-soft flex items-center justify-center text-xs font-bold">
-                ${i+1<bookingState.step ? '<i data-lucide="check" class="w-4 h-4"></i>' : i+1}
-              </div>
-              <div class="ml-2 text-xs font-semibold hidden sm:block">${s}</div>
-              ${i < steps.length-1 ? '<div class="flex-1 h-0.5 mx-3 bg-soft rounded"></div>' : ''}
-            </div>
-          `).join('')}
-        </div>
-
-        <div id="bookingStepContent"></div>
-      </div>
-    `;
-    renderBookingStep();
-    lucide.createIcons();
-  }
-
-  function renderBookingStep() {
-    const el = document.getElementById('bookingStepContent');
-    if (bookingState.step === 1) {
-      el.innerHTML = `
-        <div class="space-y-5">
-          <div>
-            <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Select Service</label>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              ${categories.map(c => `
-                <button onclick="setBookingService('${c.name}')" class="p-3 rounded-xl border-2 ${bookingState.service===c.name?'border-brand bg-soft':'border-soft'} hover:border-brand transition text-center">
-                  <i data-lucide="${c.icon}" class="w-5 h-5 mx-auto mb-1.5" style="color:${c.color}"></i>
-                  <div class="text-[11px] font-semibold">${c.name}</div>
-                </button>
-              `).join('')}
-            </div>
-          </div>
-          <div>
-            <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Describe the problem</label>
-            <textarea id="problemInput" rows="3" placeholder="e.g. Kitchen tap is leaking since yesterday, water pooling under sink..." class="input-field resize-none">${bookingState.problem}</textarea>
-          </div>
-          <button onclick="nextStep()" ${!bookingState.service?'disabled':''} class="w-full gradient-brand text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-lg hover:shadow-orange-500/30 transition">
-            Continue <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-      `;
-    } else if (bookingState.step === 2) {
-      const today = new Date().toISOString().split('T')[0];
-      el.innerHTML = `
-        <div class="space-y-5">
-          <div>
-            <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Full Address</label>
-            <textarea id="addressInput" rows="2" placeholder="Flat / House no, Building, Street, Area, City" class="input-field resize-none">${bookingState.address}</textarea>
-          </div>
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Preferred Date</label>
-              <input id="dateInput" type="date" min="${today}" value="${bookingState.date}" class="input-field">
-            </div>
-            <div>
-              <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Preferred Time Slot</label>
-              <select id="slotInput" class="input-field">
-                <option value="">Choose a slot</option>
-                <option ${bookingState.slot==='07-09'?'selected':''}>07:00 - 09:00</option>
-                <option ${bookingState.slot==='09-11'?'selected':''}>09:00 - 11:00</option>
-                <option ${bookingState.slot==='11-13'?'selected':''}>11:00 - 13:00</option>
-                <option ${bookingState.slot==='14-16'?'selected':''}>14:00 - 16:00</option>
-                <option ${bookingState.slot==='16-18'?'selected':''}>16:00 - 18:00</option>
-                <option ${bookingState.slot==='18-20'?'selected':''}>18:00 - 20:00</option>
-              </select>
-            </div>
-          </div>
-          <div class="bg-soft rounded-xl p-4 flex items-center gap-3">
-            <i data-lucide="info" class="w-5 h-5 text-brand flex-shrink-0"></i>
-            <p class="text-xs text-[var(--ink-muted)]">You'll be matched with the best available ${bookingState.service || 'worker'} for your slot.</p>
-          </div>
-          <div class="flex gap-3">
-            <button onclick="prevStep()" class="px-5 border border-soft font-semibold rounded-xl hover:bg-soft transition">Back</button>
-            <button onclick="nextStep()" class="flex-1 gradient-brand text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-orange-500/30 transition">
-              Continue <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </div>
-      `;
-    } else if (bookingState.step === 3) {
-      el.innerHTML = `
-        <div class="space-y-5">
-          <div class="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Your Name</label>
-              <input id="nameInput" type="text" placeholder="Priya Sharma" value="${bookingState.name}" class="input-field">
-            </div>
-            <div>
-              <label class="text-xs font-semibold text-[var(--ink-muted)] uppercase tracking-wide mb-2 block">Phone Number</label>
-              <input id="phoneInput" type="tel" placeholder="+91 98765 43210" value="${bookingState.phone}" class="input-field">
-            </div>
-          </div>
-          <div class="bg-soft rounded-xl p-4">
-            <div class="text-xs font-bold text-[var(--ink-muted)] uppercase tracking-wide mb-3">Booking Summary</div>
-            <div class="space-y-2 text-sm">
-              <div class="flex justify-between"><span class="text-[var(--ink-muted)]">Service</span><span class="font-semibold">${bookingState.service || '-'}</span></div>
-              <div class="flex justify-between"><span class="text-[var(--ink-muted)]">Problem</span><span class="font-semibold text-right max-w-[200px] truncate">${bookingState.problem || 'Not specified'}</span></div>
-              <div class="flex justify-between"><span class="text-[var(--ink-muted)]">Date & Slot</span><span class="font-semibold">${bookingState.date || '-'} • ${bookingState.slot || '-'}</span></div>
-            </div>
-          </div>
-          <div class="flex gap-3">
-            <button onclick="prevStep()" class="px-5 border border-soft font-semibold rounded-xl hover:bg-soft transition">Back</button>
-            <button onclick="nextStep()" class="flex-1 gradient-brand text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-orange-500/30 transition">
-              Continue to Payment <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </div>
-      `;
-    } else if (bookingState.step === 4) {
-      el.innerHTML = `
-        <div class="space-y-5">
-          <div class="bg-ink text-white rounded-2xl p-5">
-            <div class="flex items-center justify-between mb-4">
-              <div class="text-xs text-white/60 font-bold uppercase tracking-wide">Total to Pay</div>
-              <i data-lucide="lock" class="w-4 h-4 text-white/60"></i>
-            </div>
-            <div class="flex items-end justify-between">
+            <div class="mt-10 grid max-w-xl grid-cols-3 gap-4">
               <div>
-                <div class="font-display font-extrabold text-4xl">₹30<span class="text-base font-normal text-white/50">.00</span></div>
-                <div class="text-xs text-white/60 mt-1">One-time lead fee</div>
+                <div class="font-display text-3xl font-extrabold">5</div>
+                <div class="mt-1 text-xs text-neutral-500">Service Cities</div>
               </div>
-              <div class="text-right text-xs text-white/60">
-                <div>Service: ${bookingState.service}</div>
-                <div>Slot: ${bookingState.slot || '-'}</div>
+              <div class="border-l border-line pl-4">
+                <div class="font-display text-3xl font-extrabold">OTP</div>
+                <div class="mt-1 text-xs text-neutral-500">Phone Login</div>
+              </div>
+              <div class="border-l border-line pl-4">
+                <div class="font-display text-3xl font-extrabold">Free</div>
+                <div class="mt-1 text-xs text-neutral-500">Booking Request</div>
               </div>
             </div>
           </div>
-
-          <div class="border border-soft rounded-2xl p-4">
-            <div class="text-xs font-bold text-[var(--ink-muted)] uppercase tracking-wide mb-3">Payment Method</div>
-            <div class="space-y-2">
-              <label class="flex items-center gap-3 p-3 border-2 border-brand rounded-xl cursor-pointer bg-soft">
-                <input type="radio" name="pay" checked class="accent-[var(--brand)]">
-                <i data-lucide="smartphone" class="w-5 h-5"></i>
-                <div class="flex-1"><div class="font-semibold text-sm">UPI</div><div class="text-xs text-[var(--ink-muted)]">GPay, PhonePe, Paytm</div></div>
-              </label>
-              <label class="flex items-center gap-3 p-3 border-2 border-soft rounded-xl cursor-pointer hover:border-brand transition">
-                <input type="radio" name="pay" class="accent-[var(--brand)]">
-                <i data-lucide="credit-card" class="w-5 h-5"></i>
-                <div class="flex-1"><div class="font-semibold text-sm">Card</div><div class="text-xs text-[var(--ink-muted)]">Visa, Mastercard, RuPay</div></div>
-              </label>
-              <label class="flex items-center gap-3 p-3 border-2 border-soft rounded-xl cursor-pointer hover:border-brand transition">
-                <input type="radio" name="pay" class="accent-[var(--brand)]">
-                <i data-lucide="banknote" class="w-5 h-5"></i>
-                <div class="flex-1"><div class="font-semibold text-sm">Cash on Visit</div><div class="text-xs text-[var(--ink-muted)]">Pay worker directly</div></div>
-              </label>
+          <div class="hidden h-[500px] lg:col-span-5 lg:block">
+            <div class="animate-float card ml-auto mt-8 max-w-sm p-5">
+              <div class="flex items-center gap-3">
+                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=240&h=240&fit=crop" alt="" class="h-16 w-16 rounded-2xl object-cover" />
+                <div>
+                  <div class="flex items-center gap-1 font-display text-xl font-extrabold">Ramesh K. <i data-lucide="badge-check" class="h-5 w-5 text-brand"></i></div>
+                  <div class="text-sm font-semibold text-neutral-500">Electrician - Lucknow verified</div>
+                </div>
+              </div>
+              <div class="mt-5 rounded-xl bg-soft p-4">
+                <div class="text-xs font-bold uppercase tracking-widest text-neutral-500">Next available</div>
+                <div class="mt-1 font-display text-2xl font-extrabold">Today, 6:30 PM</div>
+              </div>
+              <button class="btn-dark mt-5 w-full"><i data-lucide="calendar-check" class="h-4 w-4"></i>Book visit</button>
             </div>
           </div>
-
-          <div class="bg-soft rounded-xl p-4 flex items-start gap-3">
-            <i data-lucide="shield-check" class="w-5 h-5 text-brand flex-shrink-0 mt-0.5"></i>
-            <p class="text-xs text-[var(--ink-muted)]">Once paid, you'll instantly receive the worker's WhatsApp & call button. Their full number stays hidden from public listings.</p>
-          </div>
-
-          <button onclick="completeBooking()" class="w-full gradient-brand text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-orange-500/40 transition text-lg">
-            <i data-lucide="lock-open" class="w-5 h-5"></i>Pay ₹30 & Unlock Worker
-          </button>
-          <button onclick="prevStep()" class="w-full text-sm font-semibold text-[var(--ink-muted)] hover:text-[var(--ink)] transition">← Back</button>
         </div>
-      `;
-    }
-    lucide.createIcons();
-  }
+      </section>
 
-  function setBookingService(s) { bookingState.service = s; renderBookingStep(); }
-  function nextStep() {
-    if (bookingState.step === 1) {
-      bookingState.problem = document.getElementById('problemInput').value;
-      if (!bookingState.service) { showToast('Pick a service first', 'warn'); return; }
-    } else if (bookingState.step === 2) {
-      bookingState.address = document.getElementById('addressInput').value;
-      bookingState.date = document.getElementById('dateInput').value;
-      bookingState.slot = document.getElementById('slotInput').value;
-      if (!bookingState.address || !bookingState.date || !bookingState.slot) { showToast('Fill all details', 'warn'); return; }
-    } else if (bookingState.step === 3) {
-      bookingState.name = document.getElementById('nameInput').value;
-      bookingState.phone = document.getElementById('phoneInput').value;
-      if (!bookingState.name || !bookingState.phone) { showToast('Fill your details', 'warn'); return; }
-    }
-    bookingState.step++;
-    renderBooking();
-  }
-  function prevStep() { bookingState.step--; renderBooking(); }
-
-  function completeBooking() {
-    closeModal('bookingModal');
-    showSuccessModal();
-  }
-
-  function showSuccessModal() {
-    const modal = document.getElementById('bookingModal');
-    const content = document.getElementById('bookingModalContent');
-    const phone = '919876543210';
-    content.innerHTML = `
-      <div class="p-8 text-center">
-        <div class="w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-5" style="background:rgba(42,157,143,0.12)">
-          <i data-lucide="check-circle" class="w-12 h-12" style="color:var(--teal)"></i>
-        </div>
-        <h3 class="font-display font-extrabold text-2xl mb-2">Booking Confirmed! 🎉</h3>
-        <p class="text-sm text-[var(--ink-muted)] mb-6 max-w-sm mx-auto">Your ₹30 lead fee is paid. The worker's contact is now unlocked. Reach out instantly via WhatsApp or call.</p>
-
-        <div class="bg-soft rounded-2xl p-5 text-left mb-6">
-          <div class="flex items-center gap-3 pb-4 border-b border-soft mb-4">
-            <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=100&h=100&fit=crop" class="w-12 h-12 rounded-xl object-cover" alt="">
-            <div class="flex-1">
-              <div class="flex items-center gap-1"><div class="font-bold">Ramesh Kumar</div><i data-lucide="badge-check" class="w-4 h-4 text-brand"></i></div>
-              <div class="text-xs text-[var(--ink-muted)]">${bookingState.service || 'Electrician'} • ${bookingState.slot || '09-11'}</div>
+      <section id="services" class="py-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6">
+          <div class="mb-8 flex items-end justify-between gap-4">
+            <div>
+              <p class="text-sm font-extrabold uppercase tracking-widest text-brand">Services</p>
+            <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Choose a service category</h2>
             </div>
-            <div class="text-xs font-bold flex items-center gap-1" style="color:var(--teal)"><span class="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-pulse"></span>Online</div>
           </div>
-          <div class="text-center font-display font-bold text-2xl mb-1">+91 98765 43210</div>
-          <div class="text-xs text-center text-[var(--ink-muted)] mb-4">Number unlocked — save it for future reference</div>
-          <div class="grid grid-cols-2 gap-3">
-            <a href="https://wa.me/${phone}?text=Hi%20Ramesh,%20I%20booked%20a%20${bookingState.service || 'service'}%20on%20KaamWala%20for%20${bookingState.date || 'today'}%20(${bookingState.slot || 'morning'}).%20Address:%20${encodeURIComponent(bookingState.address || '')}" target="_blank" class="bg-[#25D366] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition">
-              <i data-lucide="message-circle" class="w-5 h-5"></i>WhatsApp
-            </a>
-            <a href="tel:+${phone}" class="text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:opacity-90 transition" style="background:var(--teal)">
-              <i data-lucide="phone" class="w-5 h-5"></i>Call Now
-            </a>
+          <div id="categoryGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+        </div>
+      </section>
+
+      <section id="workers" class="py-16">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6">
+          <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p class="text-sm font-extrabold uppercase tracking-widest text-brand">Workers</p>
+              <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Verified workers, real reviews</h2>
+            </div>
+            <div class="flex flex-col gap-2 sm:flex-row">
+              <select id="cityFilter" data-city-options class="input-field sm:w-44"></select>
+              <input id="workerSearch" class="input-field sm:w-80" placeholder="Search by name, category, bio" />
+              <button id="resetFilters" class="btn-soft"><i data-lucide="rotate-ccw" class="h-4 w-4"></i>Reset</button>
+            </div>
+          </div>
+          <div id="workerGrid" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3"></div>
+          <div id="workerEmpty" class="hidden rounded-2xl border border-dashed border-line bg-white p-10 text-center">
+            <i data-lucide="search-x" class="mx-auto h-10 w-10 text-brand"></i>
+            <h3 class="mt-4 font-display text-xl font-extrabold">Koi worker nahi mila</h3>
+            <p class="mt-2 text-neutral-500">Search ya category filter change karke try karein.</p>
           </div>
         </div>
+      </section>
 
-        <button onclick="closeModal('bookingModal')" class="text-sm font-semibold text-[var(--ink-muted)] hover:text-[var(--ink)] transition">Close</button>
+      <section id="how" class="py-16">
+        <div class="mx-auto grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-3">
+          <div class="card p-6"><i data-lucide="phone" class="h-7 w-7 text-brand"></i><h3 class="mt-4 font-display text-xl font-extrabold">Login with OTP</h3><p class="mt-2 text-sm leading-6 text-neutral-600">Customer ya worker role select karke phone OTP se signup/login.</p></div>
+          <div class="card p-6"><i data-lucide="shield-check" class="h-7 w-7 text-brand"></i><h3 class="mt-4 font-display text-xl font-extrabold">Admin verifies</h3><p class="mt-2 text-sm leading-6 text-neutral-600">Worker profiles pending state me jaate hain, admin approve karta hai.</p></div>
+          <div class="card p-6"><i data-lucide="calendar-check" class="h-7 w-7 text-brand"></i><h3 class="mt-4 font-display text-xl font-extrabold">Confirm booking</h3><p class="mt-2 text-sm leading-6 text-neutral-600">Customer request Supabase me save hoti hai, worker aur admin dashboard me track hoti hai.</p></div>
+        </div>
+      </section>
+
+      <section id="trust" class="bg-ink py-16 text-white">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6">
+          <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Built for local city operations</h2>
+          <div class="mt-8 grid gap-4 md:grid-cols-3">
+            <div class="rounded-2xl border border-white/10 p-5"><div class="font-bold">RLS protected</div><p class="mt-2 text-sm text-white/70">Users, workers, bookings, reviews, and admin access use Supabase policies.</p></div>
+            <div class="rounded-2xl border border-white/10 p-5"><div class="font-bold">XSS conscious</div><p class="mt-2 text-sm text-white/70">User data rendered through escaping helpers before entering HTML.</p></div>
+            <div class="rounded-2xl border border-white/10 p-5"><div class="font-bold">City coverage</div><p class="mt-2 text-sm text-white/70">Lucknow, Unnao, Kanpur, Basti aur Gorakhpur ke liye worker filtering aur booking city support.</p></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-line py-8">
+      <div class="mx-auto flex max-w-7xl flex-col gap-3 px-4 text-sm text-neutral-500 sm:px-6">
+        <div class="font-display text-lg font-extrabold text-ink">KaamWala</div>
+        <p>Trusted local services for Lucknow, Unnao, Kanpur, Basti and Gorakhpur. Admin panel is kept on a separate direct URL.</p>
       </div>
-    `;
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    lucide.createIcons();
-  }
+    </footer>
 
-  function closeModal(id) {
-    document.getElementById(id).classList.add('hidden');
-    document.getElementById(id).classList.remove('flex');
-    document.body.style.overflow = '';
-  }
+    <dialog id="authModal" class="w-[min(92vw,520px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <div class="p-6">
+        <div class="flex items-center justify-between">
+          <h2 class="font-display text-2xl font-extrabold">Login or signup</h2>
+          <button data-close="#authModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button>
+        </div>
+        <form id="authForm" class="mt-5 grid gap-3">
+          <input name="name" class="input-field" placeholder="Full name" required minlength="2" />
+          <input name="phone" class="input-field" placeholder="India phone number, e.g. 9876543210" required />
+          <select name="role" class="input-field">
+            <option value="customer">Customer</option>
+            <option value="worker">Worker</option>
+          </select>
+          <select name="category" class="input-field">
+            <option value="">Worker category, if applicable</option>
+            <option>Electrician</option><option>Plumber</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option><option>Appliance Repair</option>
+          </select>
+          <select name="city" data-city-options class="input-field"></select>
+          <button class="btn-primary w-full" type="submit"><i data-lucide="send" class="h-4 w-4"></i>Send OTP</button>
+        </form>
+        <form id="otpForm" class="mt-4 hidden grid gap-3">
+          <div class="grid gap-3">
+            <input name="otp" class="input-field" placeholder="Enter OTP" required minlength="4" />
+            <button class="btn-dark w-full" type="submit">Verify OTP</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
 
-  function scrollToWorkers() {
-    const term = (document.getElementById('heroSearch').value || '').toLowerCase();
-    if (term) {
-      const match = categories.find(c => c.name.toLowerCase().includes(term) || c.desc.toLowerCase().includes(term));
-      if (match) selectCategory(match.name); else document.getElementById('workers').scrollIntoView({behavior:'smooth'});
-    } else {
-      document.getElementById('workers').scrollIntoView({behavior:'smooth'});
-    }
-  }
+    <dialog id="profileModal" class="w-[min(92vw,620px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <div class="p-6">
+        <div class="mb-4 flex justify-end"><button data-close="#profileModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button></div>
+        <div id="profileContent"></div>
+      </div>
+    </dialog>
 
-  // ============ TOAST ============
-  let toastTimer;
-  function showToast(msg, type='success') {
-    const toast = document.getElementById('toast');
-    document.getElementById('toastMsg').textContent = msg;
-    toast.classList.remove('hidden');
-    toast.classList.add('flex');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => { toast.classList.add('hidden'); toast.classList.remove('flex'); }, 2800);
-  }
+    <dialog id="bookingModal" class="w-[min(92vw,560px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <form id="bookingForm" class="p-6">
+        <div class="flex items-center justify-between">
+          <h2 id="bookingTitle" class="font-display text-2xl font-extrabold">Book a service</h2>
+          <button type="button" data-close="#bookingModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button>
+        </div>
+        <input id="bookingWorkerId" name="worker_id" type="hidden" />
+        <div class="mt-5 grid gap-3">
+          <select name="category" class="input-field">
+            <option>Electrician</option><option>Plumber</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option><option>Appliance Repair</option>
+          </select>
+          <select id="bookingCity" name="city" data-city-options class="input-field"></select>
+          <input type="datetime-local" name="scheduled_date" class="input-field" required />
+          <textarea name="notes" class="input-field min-h-28" placeholder="Problem details, address landmark, preferred time"></textarea>
+          <div class="rounded-xl bg-soft p-4 text-sm">
+            <div class="font-bold">Booking confirmation</div>
+            <p class="mt-1 text-neutral-600">Abhi online payment nahi hai. Request confirm hote hi admin dashboard me booking dikh jayegi.</p>
+          </div>
+          <button class="btn-primary w-full" type="submit"><i data-lucide="calendar-check" class="h-4 w-4"></i>Confirm booking</button>
+        </div>
+      </form>
+    </dialog>
 
-  // ============ SCROLL REVEAL ============
-  function observeReveal() {
-    const els = document.querySelectorAll('.reveal:not(.in)');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    els.forEach(el => io.observe(el));
-  }
-
-  // ============ INIT ============
-  document.addEventListener('DOMContentLoaded', () => {
-    renderCategories();
-    renderWorkers(workers);
-    renderBookings();
-    lucide.createIcons();
-    observeReveal();
-
-    // Rating filter
-    document.querySelectorAll('.rating-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentFilters.rating = parseFloat(btn.dataset.rating);
-        applyFilters();
-      });
-    });
-
-    // Mobile menu
-    document.getElementById('menuBtn').addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.toggle('hidden');
-    });
-    document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
-      document.getElementById('mobileMenu').classList.add('hidden');
-    }));
-
-    // Close modals on backdrop click
-    document.querySelectorAll('.modal-backdrop').forEach(m => {
-      m.addEventListener('click', (e) => { if (e.target === m) closeModal(m.id); });
-    });
-
-    // Esc to close
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeModal('workerModal');
-        closeModal('bookingModal');
-      }
-    });
-  });
-</script>
-</body>
+    <div id="toast" class="hidden"></div>
+    <script type="module" src="/src/app.js"></script>
+  </body>
 </html>

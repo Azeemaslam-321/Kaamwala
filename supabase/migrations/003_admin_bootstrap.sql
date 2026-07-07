@@ -1,0 +1,10 @@
+-- Run this after your first admin user has logged in once and exists in public.users.
+-- Replace the UUID below with that user's public.users.id, then run manually.
+--
+-- update public.users
+-- set role = 'admin'
+-- where id = '00000000-0000-0000-0000-000000000000';
+--
+-- insert into public.admins (user_id)
+-- values ('00000000-0000-0000-0000-000000000000')
+-- on conflict (user_id) do nothing;
