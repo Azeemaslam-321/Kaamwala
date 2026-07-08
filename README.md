@@ -25,7 +25,7 @@ Current service cities:
    VITE_SUPABASE_ANON_KEY=
    ```
 
-3. In Supabase, open SQL Editor and run the migration files in `supabase/migrations` in filename order.
+3. In Supabase, open SQL Editor and run the migration files in `supabase/migrations` in filename order. If you already ran older migrations, also run `005_add_email_auth_support.sql` and `006_add_user_profile_fields.sql`.
 
 4. Start the dev server:
 
@@ -41,8 +41,9 @@ Current service cities:
 
 ## Supabase notes
 
-- Enable Phone Auth in Supabase Auth.
-- For India phone OTP, phone numbers must be entered in E.164 format, for example `+919876543210`.
+- Enable Email Auth in Supabase Auth.
+- Use email/password auth. Keep email confirmation enabled for signup verification.
+- Password reset uses Supabase recovery email/link. If your template sends a code, the reset form also supports a recovery OTP.
 - The frontend must only use the Supabase anon key.
 - Never expose the Supabase service-role key in this app.
 
@@ -76,5 +77,5 @@ Do not add these links to public navigation unless you intentionally want admins
 - Never commit `.env` or Supabase service-role keys.
 - RLS policies in `supabase/migrations/001_schema_and_rls.sql` are required before real users are added.
 - User-rendered strings are escaped in `src/utils.js`.
-- For booking spam protection, add a Supabase Edge Function or Vercel serverless endpoint later. Rate-limit by `auth.uid()`, phone, and IP before inserting bookings server-side.
+- For booking spam protection, add a Supabase Edge Function or Vercel serverless endpoint later. Rate-limit by `auth.uid()`, email, and IP before inserting bookings server-side.
 - If a service-role key is ever pasted publicly, rotate it immediately in Supabase Dashboard.

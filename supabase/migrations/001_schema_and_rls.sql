@@ -21,7 +21,11 @@ end $$;
 create table if not exists public.users (
   id uuid primary key references auth.users(id) on delete cascade,
   name text not null check (char_length(trim(name)) between 2 and 80),
-  phone text not null unique check (phone ~ '^\+[1-9][0-9]{7,14}$'),
+  email text not null unique check (email ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'),
+  phone text unique check (phone is null or phone ~ '^\+[1-9][0-9]{7,14}$'),
+  city text check (city is null or city in ('Lucknow', 'Unnao', 'Kanpur', 'Basti', 'Gorakhpur')),
+  address text,
+  avatar_url text,
   role public.user_role not null default 'customer',
   is_blocked boolean not null default false,
   created_at timestamptz not null default now()
@@ -38,7 +42,8 @@ create table if not exists public.workers (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null unique references public.users(id) on delete cascade,
   name text not null check (char_length(trim(name)) between 2 and 80),
-  phone text not null check (phone ~ '^\+[1-9][0-9]{7,14}$'),
+  email text not null check (email ~* '^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$'),
+  phone text check (phone is null or phone ~ '^\+[1-9][0-9]{7,14}$'),
   category text not null,
   city text not null check (city in ('Lucknow', 'Unnao', 'Kanpur', 'Basti', 'Gorakhpur')),
   bio text not null default '',

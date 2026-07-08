@@ -12,16 +12,12 @@
           <i data-lucide="shield" class="h-6 w-6 text-white"></i>
         </div>
         <h1 class="font-display text-3xl font-extrabold">Admin login</h1>
-        <p class="mt-2 text-sm text-neutral-500">Direct admin URL. Access is checked from Supabase role/admins table.</p>
+        <p class="mt-2 text-sm text-neutral-500">Direct admin URL. Email/password login ke baad access Supabase role/admins table se check hota hai.</p>
         <form id="adminLoginForm" class="mt-6 grid gap-3">
-          <input class="input-field" name="phone" placeholder="Admin phone number" required />
-          <button class="btn-primary w-full" type="submit">Send OTP</button>
-        </form>
-        <form id="adminOtpForm" class="mt-4 hidden grid gap-3">
-          <div class="grid gap-3">
-            <input class="input-field" name="otp" placeholder="Enter OTP" required />
-            <button class="btn-dark w-full" type="submit">Verify admin access</button>
-          </div>
+          <input class="input-field" name="email" type="email" placeholder="Admin email address" required />
+          <input class="input-field" name="password" type="password" placeholder="Password" minlength="8" required />
+          <button class="btn-primary w-full" type="submit">Login to dashboard</button>
+          <button id="adminResetBtn" class="text-sm font-bold text-brand hover:text-brand-dark" type="button">Forgot password?</button>
         </form>
       </section>
     </main>

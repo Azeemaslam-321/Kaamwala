@@ -2,7 +2,7 @@ import { createIcons, icons } from 'lucide';
 import './styles.css';
 import { serviceCities } from './config.js';
 import { supabase } from './supabaseClient.js';
-import { escapeHTML, formatDateTime, requireSupabase, showToast, toIndiaPhone } from './utils.js';
+import { escapeHTML, formatDateTime, requireSupabase, showToast } from './utils.js';
 
 const $ = (selector) => document.querySelector(selector);
 let session = null;
@@ -12,32 +12,33 @@ function iconsReady() {
   createIcons({ icons });
 }
 
-async function sendAdminOtp(event) {
+async function loginAdmin(event) {
   event.preventDefault();
   if (!requireSupabase(supabase)) return;
   const form = new FormData(event.currentTarget);
-  const phone = toIndiaPhone(form.get('phone'));
-  if (!phone) return showToast('Valid India phone number enter karein.', 'error');
-  localStorage.setItem('kaamwala_admin_phone', phone);
-  const { error } = await supabase.auth.signInWithOtp({ phone });
-  if (error) return showToast(error.message, 'error');
-  $('#adminOtpForm')?.classList.remove('hidden');
-  showToast('Admin OTP sent.');
-}
-
-async function verifyAdminOtp(event) {
-  event.preventDefault();
-  const phone = localStorage.getItem('kaamwala_admin_phone');
-  const token = new FormData(event.currentTarget).get('otp');
-  const { data, error } = await supabase.auth.verifyOtp({ phone, token, type: 'sms' });
+  const email = String(form.get('email') || '').trim().toLowerCase();
+  const password = String(form.get('password') || '');
+  if (!email || !email.includes('@')) return showToast('Valid admin email enter karein.', 'error');
+  if (password.length < 8) return showToast('Password kam se kam 8 characters ka hona chahiye.', 'error');
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return showToast(error.message, 'error');
   session = data.session;
   const allowed = await verifyAdmin();
   if (!allowed) {
     await supabase.auth.signOut();
-    return showToast('Admin access nahi hai.', 'error');
+    return showToast('Login sahi hai, lekin is email ko admin role nahi mila hai.', 'error');
   }
   window.location.href = '/admin/dashboard';
+}
+
+async function resetAdminPassword() {
+  const email = document.querySelector('[name="email"]')?.value?.trim().toLowerCase();
+  if (!email || !email.includes('@')) return showToast('Pehle admin email enter karein.', 'error');
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin
+  });
+  if (error) return showToast(error.message, 'error');
+  showToast('Password reset email sent.');
 }
 
 async function verifyAdmin() {
@@ -45,7 +46,17 @@ async function verifyAdmin() {
   session = data.session;
   if (!session) return false;
   const { data: profile, error } = await supabase.from('users').select('*, admins(*)').eq('id', session.user.id).maybeSingle();
-  if (error || !profile || profile.is_blocked) return false;
+  if (error) return false;
+  if (!profile) {
+    await supabase.from('users').insert({
+      id: session.user.id,
+      name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Admin User',
+      email: session.user.email,
+      role: 'customer'
+    });
+    return false;
+  }
+  if (profile.is_blocked) return false;
   adminProfile = profile;
   return profile.role === 'admin' || (profile.admins || []).length > 0;
 }
@@ -90,7 +101,7 @@ async function loadPendingWorkers() {
     <div class="card flex flex-col gap-4 p-4 md:flex-row md:items-center md:justify-between">
       <div>
         <div class="font-display text-lg font-extrabold">${escapeHTML(worker.name)}</div>
-        <div class="text-sm text-neutral-500">${escapeHTML(worker.category)} - ${escapeHTML(worker.city)} - ${escapeHTML(worker.phone)}</div>
+        <div class="text-sm text-neutral-500">${escapeHTML(worker.category)} - ${escapeHTML(worker.city)} - ${escapeHTML(worker.email || worker.phone || '')}</div>
         <p class="mt-2 text-sm text-neutral-600">${escapeHTML(worker.bio)}</p>
       </div>
       <div class="flex gap-2">
@@ -117,7 +128,7 @@ async function loadBookings() {
   const to = $('#bookingTo')?.value || '';
   let query = supabase
     .from('bookings')
-    .select('*, users(name, phone), workers(name, category), categories(name)')
+    .select('*, users(name, email, phone), workers(name, category), categories(name)')
     .order('created_at', { ascending: false });
   if (status) query = query.eq('status', status);
   if (city) query = query.eq('city', city);
@@ -143,7 +154,7 @@ async function loadUsers() {
   $('#userRows').innerHTML = (data || []).map((user) => `
     <tr class="border-b border-line">
       <td class="px-4 py-3">${escapeHTML(user.name)}</td>
-      <td class="px-4 py-3">${escapeHTML(user.phone)}</td>
+      <td class="px-4 py-3">${escapeHTML(user.email || user.phone || '-')}</td>
       <td class="px-4 py-3">${escapeHTML(user.role)}</td>
       <td class="px-4 py-3">${user.is_blocked ? 'Blocked' : 'Active'}</td>
       <td class="px-4 py-3"><button class="btn-soft py-2" data-block="${user.id}" data-value="${!user.is_blocked}">${user.is_blocked ? 'Unblock' : 'Block'}</button></td>
@@ -217,8 +228,8 @@ function init() {
   document.querySelectorAll('[data-city-options]').forEach((select) => {
     select.innerHTML = '<option value="">All cities</option>' + serviceCities.map((city) => `<option value="${escapeHTML(city)}">${escapeHTML(city)}</option>`).join('');
   });
-  $('#adminLoginForm')?.addEventListener('submit', sendAdminOtp);
-  $('#adminOtpForm')?.addEventListener('submit', verifyAdminOtp);
+  $('#adminLoginForm')?.addEventListener('submit', loginAdmin);
+  $('#adminResetBtn')?.addEventListener('click', resetAdminPassword);
   if ($('#dashboardShell')) {
     bindDashboard();
     guardDashboard();
