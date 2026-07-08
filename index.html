@@ -1,302 +1,133 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-IN">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="KaamWala connects homes with verified local service experts." />
-    <title>KaamWala - Trusted Local Service Experts</title>
+    <meta name="theme-color" content="#123C69" />
+    <meta name="description" content="KaamNest helps Lucknow customers book trusted professionals for electrician, plumber, AC repair, RO service, cleaning, painting, CCTV, pest control and appliance repair." />
+    <meta property="og:title" content="KaamNest - Trusted Home Services in Lucknow" />
+    <meta property="og:description" content="Book verified local professionals near you in Lucknow. Transparent pricing, easy booking, and fast support." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kaamnest.in/" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&h=630&fit=crop" />
+    <link rel="canonical" href="https://kaamnest.in/" />
+    <title>KaamNest - Trusted Home Services in Lucknow</title>
+    <script id="schemaLocalBusiness" type="application/ld+json"></script>
+    <script id="schemaPage" type="application/ld+json"></script>
   </head>
-  <body class="overflow-x-hidden font-sans">
-    <div class="bg-ink px-4 py-2 text-center text-xs font-semibold text-white sm:text-sm">
-      Lucknow, Unnao, Kanpur, Basti aur Gorakhpur me verified local experts.
-    </div>
+  <body class="overflow-x-hidden bg-shell font-sans text-ink">
+    <div id="app"></div>
 
-    <nav class="glass sticky top-0 z-40 border-b border-line">
-      <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6">
-        <a href="/" class="flex items-center gap-2.5">
-          <div class="gradient-brand flex h-10 w-10 items-center justify-center rounded-xl shadow-glow">
-            <i data-lucide="wrench" class="h-5 w-5 text-white"></i>
-          </div>
-          <div class="leading-none">
-            <div class="font-display text-xl font-extrabold tracking-tight">KaamWala</div>
-            <div class="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Local Experts</div>
-          </div>
-        </a>
-        <div class="hidden items-center gap-7 text-sm font-bold lg:flex">
-          <a href="#services" class="hover:text-brand">Services</a>
-          <a href="#workers" class="hover:text-brand">Workers</a>
-          <a href="#how" class="hover:text-brand">How it Works</a>
-          <a href="#trust" class="hover:text-brand">Trust</a>
-        </div>
-        <div id="authArea" class="flex items-center gap-2"></div>
-      </div>
-    </nav>
-
-    <main>
-      <section class="relative overflow-hidden">
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-12 lg:py-20">
-          <div class="lg:col-span-7">
-            <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-brand/20 bg-soft px-3 py-1.5 text-xs font-bold text-brand">
-              <span class="h-2 w-2 rounded-full bg-brand"></span>
-              Free email login, city-wise verified workers
-            </div>
-            <h1 class="font-display text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              Find <span class="gradient-text">trusted experts</span> for every job at home.
-            </h1>
-            <p class="mt-6 max-w-xl text-lg leading-8 text-neutral-600">
-              Lucknow, Unnao, Kanpur, Basti aur Gorakhpur ke electricians, plumbers, carpenters aur cleaners. Verified workers, simple booking, local support.
-            </p>
-            <div class="mt-8 flex max-w-2xl flex-col gap-2 rounded-2xl border border-line bg-white p-2 shadow-xl shadow-black/5 sm:flex-row">
-              <div class="flex flex-1 items-center gap-2 px-3">
-                <i data-lucide="search" class="h-5 w-5 text-neutral-500"></i>
-                <input id="heroSearch" type="text" placeholder="Search plumber, electrician, cleaner" class="w-full bg-transparent py-3 text-sm outline-none" />
-              </div>
-              <div class="flex items-center gap-2 border-line px-3 sm:border-l">
-                <i data-lucide="map-pin" class="h-5 w-5 text-neutral-500"></i>
-                <select id="heroCity" data-city-options class="bg-transparent py-3 text-sm font-bold outline-none"></select>
-              </div>
-              <button id="heroSearchBtn" class="btn-primary rounded-xl">
-                Find Experts
-                <i data-lucide="arrow-right" class="h-4 w-4"></i>
-              </button>
-            </div>
-            <div class="mt-10 grid max-w-xl grid-cols-3 gap-4">
-              <div>
-                <div class="font-display text-3xl font-extrabold">5</div>
-                <div class="mt-1 text-xs text-neutral-500">Service Cities</div>
-              </div>
-              <div class="border-l border-line pl-4">
-              <div class="font-display text-3xl font-extrabold">Email</div>
-              <div class="mt-1 text-xs text-neutral-500">Free Login</div>
-              </div>
-              <div class="border-l border-line pl-4">
-                <div class="font-display text-3xl font-extrabold">Free</div>
-                <div class="mt-1 text-xs text-neutral-500">Booking Request</div>
-              </div>
-            </div>
-            <div class="mt-8 flex flex-wrap gap-3 text-xs font-bold text-neutral-500">
-              <span class="rounded-full border border-line bg-white px-3 py-2">Background-checked onboarding</span>
-              <span class="rounded-full border border-line bg-white px-3 py-2">Admin verified workers</span>
-              <span class="rounded-full border border-line bg-white px-3 py-2">Local city support</span>
-            </div>
-          </div>
-          <div class="hidden h-[500px] lg:col-span-5 lg:block">
-            <div class="animate-float card ml-auto mt-8 max-w-sm overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&h=520&fit=crop" alt="Home service professional cleaning a modern kitchen" class="h-48 w-full object-cover" />
-              <div class="p-5">
-              <div class="flex items-center gap-3">
-                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=240&h=240&fit=crop" alt="" class="h-16 w-16 rounded-2xl object-cover" />
-                <div>
-                  <div class="flex items-center gap-1 font-display text-xl font-extrabold">Amit V. <i data-lucide="badge-check" class="h-5 w-5 text-brand"></i></div>
-                  <div class="text-sm font-semibold text-neutral-500">Appliance repair - Lucknow verified</div>
-                </div>
-              </div>
-              <div class="mt-5 rounded-xl bg-soft p-4">
-                <div class="text-xs font-bold uppercase tracking-widest text-neutral-500">Next available</div>
-                <div class="mt-1 font-display text-2xl font-extrabold">Today, 6:30 PM</div>
-              </div>
-              <button class="btn-dark mt-5 w-full"><i data-lucide="calendar-check" class="h-4 w-4"></i>Book visit</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="services" class="py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6">
-          <div class="mb-8 flex items-end justify-between gap-4">
+    <dialog id="authModal" class="w-[min(94vw,760px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <div class="grid overflow-hidden rounded-2xl bg-white lg:grid-cols-[0.85fr_1.15fr]">
+        <div class="hidden bg-brand p-8 text-white lg:block">
+          <div class="flex items-center gap-3">
+            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white/15"><i data-lucide="home" class="h-6 w-6"></i></div>
             <div>
-              <p class="text-sm font-extrabold uppercase tracking-widest text-brand">Services</p>
-            <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Choose a service category</h2>
+              <div class="font-display text-xl font-extrabold">KaamNest</div>
+              <div class="text-xs font-bold uppercase tracking-widest text-white/70">Lucknow services</div>
             </div>
           </div>
-          <div id="categoryGrid" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+          <h2 class="mt-10 font-display text-3xl font-extrabold leading-tight">Secure login for customers and professionals.</h2>
+          <p class="mt-4 text-sm leading-6 text-white/75">Email verification, role-based access, pending worker approval, and clean profile data are built into the flow.</p>
+          <div class="mt-8 grid gap-3 text-sm font-semibold text-white/80">
+            <span class="flex items-center gap-2"><i data-lucide="shield-check" class="h-4 w-4"></i>Verified professional onboarding</span>
+            <span class="flex items-center gap-2"><i data-lucide="map-pin" class="h-4 w-4"></i>Lucknow locality coverage</span>
+            <span class="flex items-center gap-2"><i data-lucide="lock-keyhole" class="h-4 w-4"></i>Supabase secure sessions</span>
+          </div>
         </div>
-      </section>
-
-      <section id="workers" class="py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6">
-          <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div class="p-5 sm:p-7">
+          <div class="flex items-start justify-between gap-4">
             <div>
-              <p class="text-sm font-extrabold uppercase tracking-widest text-brand">Workers</p>
-              <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Verified workers, real reviews</h2>
+              <p id="authEyebrow" class="kicker">Welcome back</p>
+              <h2 id="authTitle" class="mt-1 font-display text-2xl font-extrabold">Login to KaamNest</h2>
             </div>
-            <div class="flex flex-col gap-2 sm:flex-row">
-              <select id="cityFilter" data-city-options class="input-field sm:w-44"></select>
-              <input id="workerSearch" class="input-field sm:w-80" placeholder="Search by name, category, bio" />
-              <button id="resetFilters" class="btn-soft"><i data-lucide="rotate-ccw" class="h-4 w-4"></i>Reset</button>
+            <button data-close="#authModal" class="rounded-full p-2 hover:bg-soft" aria-label="Close"><i data-lucide="x" class="h-5 w-5"></i></button>
+          </div>
+          <div id="authTabs" class="mt-5 grid grid-cols-2 rounded-xl border border-line bg-shell p-1">
+            <button id="loginTab" type="button" class="auth-tab active rounded-lg px-4 py-2.5 text-sm font-extrabold">Login</button>
+            <button id="signupTab" type="button" class="auth-tab rounded-lg px-4 py-2.5 text-sm font-extrabold">Sign up</button>
+          </div>
+          <div id="authMessage" class="mt-4 hidden"></div>
+          <form id="authForm" class="mt-5 grid gap-3">
+            <div id="roleChooser" class="hidden grid-cols-2 gap-2 sm:grid-cols-3">
+              <label class="rounded-xl border border-line bg-white p-3 text-sm font-bold"><input class="mr-2" type="radio" name="role" value="customer" checked />Customer</label>
+              <label class="rounded-xl border border-line bg-white p-3 text-sm font-bold"><input class="mr-2" type="radio" name="role" value="worker" />Professional</label>
             </div>
-          </div>
-          <div id="workerGrid" class="grid gap-5 md:grid-cols-2 xl:grid-cols-3"></div>
-          <div id="workerEmpty" class="hidden rounded-2xl border border-dashed border-line bg-white p-10 text-center">
-            <i data-lucide="search-x" class="mx-auto h-10 w-10 text-brand"></i>
-            <h3 class="mt-4 font-display text-xl font-extrabold">Koi worker nahi mila</h3>
-            <p class="mt-2 text-neutral-500">Search ya category filter change karke try karein.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="py-16">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6">
-          <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <div>
-              <p class="text-sm font-extrabold uppercase tracking-widest text-brand">Service Areas</p>
-              <h2 class="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Local teams for real home-service demand</h2>
-              <p class="mt-4 leading-7 text-neutral-600">KaamWala city-wise worker verification, booking tracking, and admin review ke saath built hai. Lucknow ke Gomti Nagar se Kanpur ke Swaroop Nagar tak, platform local demand ko clean dashboard me organize karta hai.</p>
-              <div class="mt-6 grid grid-cols-2 gap-3 text-sm font-bold sm:grid-cols-3">
-                <span class="rounded-xl border border-line bg-white px-4 py-3">Lucknow</span>
-                <span class="rounded-xl border border-line bg-white px-4 py-3">Unnao</span>
-                <span class="rounded-xl border border-line bg-white px-4 py-3">Kanpur</span>
-                <span class="rounded-xl border border-line bg-white px-4 py-3">Basti</span>
-                <span class="rounded-xl border border-line bg-white px-4 py-3">Gorakhpur</span>
-              </div>
+            <input id="authName" name="name" class="input-field hidden" placeholder="Full name" minlength="2" />
+            <input name="email" type="email" class="input-field" placeholder="Email address" required />
+            <input id="authPhone" name="phone" class="input-field hidden" placeholder="Mobile number, e.g. 9876543210" />
+            <input id="authPassword" name="password" type="password" class="input-field" placeholder="Password" minlength="8" autocomplete="current-password" />
+            <input id="authConfirmPassword" name="confirm_password" type="password" class="input-field hidden" placeholder="Confirm password" minlength="8" autocomplete="new-password" />
+            <div id="signupDetails" class="hidden grid gap-3 sm:grid-cols-2">
+              <input name="address" class="input-field sm:col-span-2" placeholder="House/flat address" />
+              <select id="authLocality" name="area" class="input-field"></select>
+              <input name="city" class="input-field" value="Lucknow" readonly />
+              <input name="referral" class="input-field sm:col-span-2" placeholder="Referral code optional" />
             </div>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <img src="https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=900&h=700&fit=crop" alt="Electrician repairing residential wiring" class="h-72 w-full rounded-2xl object-cover shadow-sm" />
-              <img src="https://images.unsplash.com/photo-1607400201889-565b1ee75f8e?w=900&h=700&fit=crop" alt="Home maintenance tools arranged professionally" class="h-72 w-full rounded-2xl object-cover shadow-sm sm:mt-10" />
+            <div id="workerDetails" class="hidden grid gap-3 sm:grid-cols-2">
+              <select id="authCategory" name="category" class="input-field"></select>
+              <input name="experience" type="number" min="0" max="40" class="input-field" placeholder="Experience years" />
+              <input name="service_areas" class="input-field sm:col-span-2" placeholder="Service areas, e.g. Gomti Nagar, Aliganj" />
+              <input name="availability" class="input-field" placeholder="Availability, e.g. Mon-Sat 9 AM-7 PM" />
+              <input name="upi" class="input-field" placeholder="Bank/UPI placeholder" />
+              <input name="document" type="file" class="input-field sm:col-span-2" disabled />
+              <input name="photo" type="file" class="input-field sm:col-span-2" disabled />
             </div>
-          </div>
+            <input id="resetOtp" name="otp" class="input-field hidden" placeholder="Reset OTP code, if email gives code" minlength="4" />
+            <input id="newPassword" name="new_password" type="password" class="input-field hidden" placeholder="New password" minlength="8" autocomplete="new-password" />
+            <input id="newPasswordConfirm" name="new_password_confirm" type="password" class="input-field hidden" placeholder="Confirm new password" minlength="8" autocomplete="new-password" />
+            <button id="authSubmitBtn" class="btn-primary w-full" type="submit"><i data-lucide="log-in" class="h-4 w-4"></i>Login</button>
+            <button id="forgotPasswordBtn" class="text-sm font-bold text-brand hover:text-brand-dark" type="button">Forgot password?</button>
+            <p id="authHint" class="text-xs leading-5 text-slate-500">Use the email and password you created during signup.</p>
+          </form>
         </div>
-      </section>
-
-      <section id="how" class="py-16">
-        <div class="mx-auto grid max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-3">
-          <div class="card p-6"><i data-lucide="lock-keyhole" class="h-7 w-7 text-brand"></i><h3 class="mt-4 font-display text-xl font-extrabold">Email verification + password</h3><p class="mt-2 text-sm leading-6 text-neutral-600">Signup ke time email verify hota hai. Uske baad users email aur password se login karte hain.</p></div>
-          <div class="card p-6"><i data-lucide="shield-check" class="h-7 w-7 text-brand"></i><h3 class="mt-4 font-display text-xl font-extrabold">Admin verifies</h3><p class="mt-2 text-sm leading-6 text-neutral-600">Worker profiles pending state me jaate hain, admin approve karta hai.</p></div>
-          <div class="card p-6"><i data-lucide="calendar-check" class="h-7 w-7 text-brand"></i><h3 class="mt-4 font-display text-xl font-extrabold">Confirm booking</h3><p class="mt-2 text-sm leading-6 text-neutral-600">Customer request Supabase me save hoti hai, worker aur admin dashboard me track hoti hai.</p></div>
-        </div>
-      </section>
-
-      <section id="trust" class="bg-ink py-16 text-white">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6">
-          <h2 class="font-display text-3xl font-extrabold sm:text-4xl">Built for local city operations</h2>
-          <div class="mt-8 grid gap-4 md:grid-cols-3">
-            <div class="rounded-2xl border border-white/10 p-5"><div class="font-bold">RLS protected</div><p class="mt-2 text-sm text-white/70">Users, workers, bookings, reviews, and admin access use Supabase policies.</p></div>
-            <div class="rounded-2xl border border-white/10 p-5"><div class="font-bold">XSS conscious</div><p class="mt-2 text-sm text-white/70">User data rendered through escaping helpers before entering HTML.</p></div>
-            <div class="rounded-2xl border border-white/10 p-5"><div class="font-bold">City coverage</div><p class="mt-2 text-sm text-white/70">Lucknow, Unnao, Kanpur, Basti aur Gorakhpur ke liye worker filtering aur booking city support.</p></div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="border-t border-line bg-white">
-      <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 text-sm text-neutral-500 sm:px-6 lg:grid-cols-[1.4fr_0.8fr_0.8fr_1fr]">
-        <div class="max-w-md">
-          <div class="flex items-center gap-2.5">
-            <div class="gradient-brand flex h-10 w-10 items-center justify-center rounded-xl"><i data-lucide="wrench" class="h-5 w-5 text-white"></i></div>
-            <div>
-              <div class="font-display text-lg font-extrabold text-ink">KaamWala</div>
-              <div class="text-[10px] font-bold uppercase tracking-widest">Local Experts</div>
-            </div>
-          </div>
-          <p class="mt-4 leading-6">A city-first service marketplace for verified electricians, plumbers, cleaners, carpenters, painters and appliance repair partners across Uttar Pradesh.</p>
-          <div class="mt-5 flex flex-wrap gap-2">
-            <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-brand">Lucknow</span>
-            <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-brand">Kanpur</span>
-            <span class="rounded-full bg-soft px-3 py-1 text-xs font-bold text-brand">Gorakhpur</span>
-          </div>
-        </div>
-        <div>
-          <div class="font-bold text-ink">Services</div>
-          <div class="mt-3 grid gap-2"><a href="#services" class="hover:text-brand">Electrician</a><a href="#services" class="hover:text-brand">Plumber</a><a href="#services" class="hover:text-brand">Cleaner</a><a href="#services" class="hover:text-brand">Carpenter</a><a href="#services" class="hover:text-brand">Appliance Repair</a></div>
-        </div>
-        <div>
-          <div class="font-bold text-ink">Company</div>
-          <div class="mt-3 grid gap-2"><a href="#how" class="hover:text-brand">How it works</a><a href="#trust" class="hover:text-brand">Trust & safety</a><a href="#workers" class="hover:text-brand">Find workers</a><button id="footerLoginBtn" class="text-left hover:text-brand">Customer login</button></div>
-        </div>
-        <div>
-          <div class="font-bold text-ink">Support</div>
-          <div class="mt-3 grid gap-2"><span>support@kaamwala.local</span><span>Mon-Sat, 9 AM-7 PM</span><span>Partner onboarding open</span><span>Admin URL shared privately</span></div>
-        </div>
-      </div>
-      <div class="border-t border-line">
-        <div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs font-semibold text-neutral-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <span>© 2026 KaamWala. All rights reserved.</span>
-          <span>Built for verified local service operations.</span>
-        </div>
-      </div>
-    </footer>
-
-    <dialog id="authModal" class="w-[min(92vw,520px)] rounded-2xl p-0 backdrop:bg-black/60">
-      <div class="p-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p id="authEyebrow" class="text-xs font-extrabold uppercase tracking-widest text-brand">Welcome back</p>
-            <h2 id="authTitle" class="font-display text-2xl font-extrabold">Login to KaamWala</h2>
-          </div>
-          <button data-close="#authModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button>
-        </div>
-        <div id="authTabs" class="mt-5 grid grid-cols-2 rounded-xl border border-line bg-shell p-1">
-          <button id="loginTab" type="button" class="auth-tab active rounded-lg px-4 py-2.5 text-sm font-extrabold">Login</button>
-          <button id="signupTab" type="button" class="auth-tab rounded-lg px-4 py-2.5 text-sm font-extrabold">Sign up</button>
-        </div>
-        <div id="authMessage" class="mt-4 hidden"></div>
-        <form id="authForm" class="mt-5 grid gap-3">
-          <input id="authName" name="name" class="input-field hidden" placeholder="Full name" minlength="2" />
-          <input name="email" type="email" class="input-field" placeholder="Email address" required />
-          <input id="authPassword" name="password" type="password" class="input-field" placeholder="Password" minlength="8" autocomplete="current-password" />
-          <input id="authConfirmPassword" name="confirm_password" type="password" class="input-field hidden" placeholder="Confirm password" minlength="8" autocomplete="new-password" />
-          <input id="authPhone" name="phone" class="input-field hidden" placeholder="Phone number optional, e.g. 9876543210" />
-          <select id="authRole" name="role" class="input-field hidden">
-            <option value="customer">Customer</option>
-            <option value="worker">Worker</option>
-          </select>
-          <select id="authCategory" name="category" class="input-field hidden">
-            <option value="">Worker category, if applicable</option>
-            <option>Electrician</option><option>Plumber</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option><option>Appliance Repair</option>
-          </select>
-          <select id="authCity" name="city" data-city-options class="input-field hidden"></select>
-          <input id="resetOtp" name="otp" class="input-field hidden" placeholder="Reset OTP code, if email gives code" minlength="4" />
-          <input id="newPassword" name="new_password" type="password" class="input-field hidden" placeholder="New password" minlength="8" autocomplete="new-password" />
-          <input id="newPasswordConfirm" name="new_password_confirm" type="password" class="input-field hidden" placeholder="Confirm new password" minlength="8" autocomplete="new-password" />
-          <button id="authSubmitBtn" class="btn-primary w-full" type="submit"><i data-lucide="log-in" class="h-4 w-4"></i>Login</button>
-          <button id="forgotPasswordBtn" class="text-sm font-bold text-brand hover:text-brand-dark" type="button">Forgot password?</button>
-          <p id="authHint" class="text-xs leading-5 text-neutral-500">Use the email and password you created during signup.</p>
-        </form>
       </div>
     </dialog>
 
-    <dialog id="accountModal" class="w-[min(94vw,760px)] rounded-2xl p-0 backdrop:bg-black/60">
-      <div class="p-6">
+    <dialog id="accountModal" class="w-[min(94vw,920px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <div class="p-5 sm:p-7">
         <div class="mb-5 flex items-center justify-between">
           <div>
-            <p class="text-xs font-extrabold uppercase tracking-widest text-brand">My Account</p>
-            <h2 class="font-display text-2xl font-extrabold">Profile & bookings</h2>
+            <p class="kicker">My Account</p>
+            <h2 class="font-display text-2xl font-extrabold">Profile, bookings & role dashboard</h2>
           </div>
-          <button data-close="#accountModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button>
+          <button data-close="#accountModal" class="rounded-full p-2 hover:bg-soft" aria-label="Close"><i data-lucide="x" class="h-5 w-5"></i></button>
         </div>
-        <div id="accountContent">
-          <div class="flex justify-center py-10"><div class="spinner"></div></div>
-        </div>
+        <div id="accountContent"><div class="flex justify-center py-10"><div class="spinner"></div></div></div>
       </div>
     </dialog>
 
-    <dialog id="profileModal" class="w-[min(92vw,620px)] rounded-2xl p-0 backdrop:bg-black/60">
-      <div class="p-6">
-        <div class="mb-4 flex justify-end"><button data-close="#profileModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button></div>
+    <dialog id="profileModal" class="w-[min(94vw,760px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <div class="p-5 sm:p-7">
+        <div class="mb-4 flex justify-end"><button data-close="#profileModal" class="rounded-full p-2 hover:bg-soft" aria-label="Close"><i data-lucide="x" class="h-5 w-5"></i></button></div>
         <div id="profileContent"></div>
       </div>
     </dialog>
 
-    <dialog id="bookingModal" class="w-[min(92vw,560px)] rounded-2xl p-0 backdrop:bg-black/60">
-      <form id="bookingForm" class="p-6">
-        <div class="flex items-center justify-between">
-          <h2 id="bookingTitle" class="font-display text-2xl font-extrabold">Book a service</h2>
-          <button type="button" data-close="#bookingModal" class="rounded-full p-2 hover:bg-soft"><i data-lucide="x" class="h-5 w-5"></i></button>
+    <dialog id="bookingModal" class="w-[min(94vw,680px)] rounded-2xl p-0 backdrop:bg-black/60">
+      <form id="bookingForm" class="p-5 sm:p-7">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="kicker">Booking request</p>
+            <h2 id="bookingTitle" class="font-display text-2xl font-extrabold">Book a service</h2>
+          </div>
+          <button type="button" data-close="#bookingModal" class="rounded-full p-2 hover:bg-soft" aria-label="Close"><i data-lucide="x" class="h-5 w-5"></i></button>
         </div>
         <input id="bookingWorkerId" name="worker_id" type="hidden" />
-        <div class="mt-5 grid gap-3">
-          <select name="category" class="input-field">
-            <option>Electrician</option><option>Plumber</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option><option>Appliance Repair</option>
-          </select>
-          <select id="bookingCity" name="city" data-city-options class="input-field"></select>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+          <select id="bookingService" name="service" class="input-field" required></select>
+          <select id="bookingArea" name="area" class="input-field" required></select>
+          <input name="city" class="input-field" value="Lucknow" readonly />
           <input type="datetime-local" name="scheduled_date" class="input-field" required />
-          <textarea name="notes" class="input-field min-h-28" placeholder="Problem details, address landmark, preferred time"></textarea>
-          <div class="rounded-xl bg-soft p-4 text-sm">
-            <div class="font-bold">Booking confirmation</div>
-            <p class="mt-1 text-neutral-600">Abhi online payment nahi hai. Request confirm hote hi admin dashboard me booking dikh jayegi.</p>
+          <input name="address" class="input-field sm:col-span-2" placeholder="Full address with landmark" required />
+          <textarea name="notes" class="input-field min-h-28 sm:col-span-2" placeholder="Issue description, appliance model, preferred instructions"></textarea>
+          <input name="image" type="file" class="input-field sm:col-span-2" disabled />
+          <div class="rounded-xl bg-soft p-4 text-sm sm:col-span-2">
+            <div class="font-bold">Estimated payment</div>
+            <p id="bookingPriceHint" class="mt-1 text-slate-600">Cash on service / unpaid request for now. Online payment placeholder is ready for future Razorpay integration.</p>
           </div>
-          <button class="btn-primary w-full" type="submit"><i data-lucide="calendar-check" class="h-4 w-4"></i>Confirm booking</button>
+          <button class="btn-primary w-full sm:col-span-2" type="submit"><i data-lucide="calendar-check" class="h-4 w-4"></i>Confirm booking request</button>
         </div>
       </form>
     </dialog>

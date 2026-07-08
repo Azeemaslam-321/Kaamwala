@@ -1,14 +1,19 @@
-# KaamWala
+# KaamNest
 
-KaamWala is a local services booking platform using a static Vite frontend, Tailwind CSS, and Supabase Auth/Postgres.
+KaamNest is a Lucknow-first home services platform for booking trusted local professionals such as electricians, plumbers, carpenters, AC/RO technicians, cleaners, painters, CCTV installers, pest-control teams, and appliance repair partners.
 
-Current service cities:
+Tagline: **Trusted Home Services in Lucknow**
 
-- Lucknow
-- Unnao
-- Kanpur
-- Basti
-- Gorakhpur
+## What is included
+
+- Vite + Tailwind production frontend
+- Supabase Auth with email/password signup, email verification, login, logout, and password reset
+- Role-based flows for customer, worker/professional, and admin
+- Customer dashboard, worker dashboard, booking tracking, service pages, area SEO pages, blog/contact/legal pages
+- Separate admin URLs under `/admin`
+- Supabase migrations for schema, RLS, admin access, services, service areas, bookings, payments placeholder, contact queries, worker documents, settings, and audit logs
+- Lucknow services and area seed data
+- Vercel-ready routing via `vercel.json`
 
 ## Local setup
 
@@ -18,51 +23,63 @@ Current service cities:
    npm install
    ```
 
-2. Copy `.env.example` to `.env` and fill in:
+2. Create `.env` from `.env.example`:
 
    ```bash
    VITE_SUPABASE_URL=
    VITE_SUPABASE_ANON_KEY=
    ```
 
-3. In Supabase, open SQL Editor and run the migration files in `supabase/migrations` in filename order. If you already ran older migrations, also run `005_add_email_auth_support.sql` and `006_add_user_profile_fields.sql`.
+   Use only the Supabase anon/publishable key in frontend env. Never expose the service-role key.
 
-4. Start the dev server:
+3. Run Supabase SQL migrations in filename order from `supabase/migrations`.
+
+   Important latest files:
+
+   - `008_kaamnest_pro_schema.sql`
+   - `009_kaamnest_seed_lucknow.sql`
+   - `007_make_azeem_admin.sql` after your admin Auth user exists
+
+4. Start dev server:
 
    ```bash
    npm run dev
    ```
 
-5. Build for production:
+5. Open:
+
+   - Customer app: `http://127.0.0.1:5173/`
+   - Admin login: `http://127.0.0.1:5173/admin/login`
+
+6. Production build:
 
    ```bash
    npm run build
    ```
 
-## Supabase notes
+## Supabase Auth
 
-- Enable Email Auth in Supabase Auth.
-- Use email/password auth. Keep email confirmation enabled for signup verification.
-- Password reset uses Supabase recovery email/link. If your template sends a code, the reset form also supports a recovery OTP.
-- The frontend must only use the Supabase anon key.
-- Never expose the Supabase service-role key in this app.
+- Enable Email provider in Supabase Auth.
+- Keep email confirmation enabled for signup verification.
+- Signup creates profile data in `public.users`.
+- Worker signup creates a pending profile in `public.workers`.
+- Admin signup is not public. Create/admin-grant admins from Supabase Auth + SQL only.
 
-## Admin URLs
+## Admin setup
 
-The admin panel is intentionally separate from the customer app:
+1. Create or confirm the admin user in Supabase Authentication.
+2. Run `supabase/migrations/007_make_azeem_admin.sql`.
+3. Login at `/admin/login`.
 
-- `/admin/login`
-- `/admin/dashboard`
-
-Do not add these links to public navigation unless you intentionally want admins to discover them there.
+If login succeeds but admin access fails, the Auth user exists but the `public.users.role='admin'` or `public.admins` row is missing. Run the admin SQL again.
 
 ## Vercel deployment
 
 1. Push the repo to GitHub.
-2. Import `Azeemaslam-321/Kaamwala` into Vercel.
-3. Use the default build command from `vercel.json`: `npm run build`.
-4. Set output directory to `dist`.
-5. Add these Environment Variables in Vercel:
+2. Import the repo into Vercel.
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Add environment variables:
 
    ```text
    VITE_SUPABASE_URL
@@ -71,11 +88,26 @@ Do not add these links to public navigation unless you intentionally want admins
 
 6. Deploy.
 
-## Security checklist
+`vercel.json` rewrites `/admin/login`, `/admin/dashboard`, and frontend SEO routes to the right HTML files.
 
-- Keep only `VITE_SUPABASE_ANON_KEY` in the frontend.
-- Never commit `.env` or Supabase service-role keys.
-- RLS policies in `supabase/migrations/001_schema_and_rls.sql` are required before real users are added.
-- User-rendered strings are escaped in `src/utils.js`.
-- For booking spam protection, add a Supabase Edge Function or Vercel serverless endpoint later. Rate-limit by `auth.uid()`, email, and IP before inserting bookings server-side.
-- If a service-role key is ever pasted publicly, rotate it immediately in Supabase Dashboard.
+## Security notes
+
+- Frontend uses only Supabase anon key.
+- Service-role keys must never be committed or pasted into frontend code.
+- RLS policies are required before production users.
+- User-rendered strings are escaped through `src/utils.js`.
+- Add production rate limiting through Supabase Edge Functions or Vercel serverless functions before high traffic launch.
+- Razorpay is intentionally only a placeholder. Add real online payment through secure backend/serverless endpoints later.
+
+## SEO routes
+
+Examples:
+
+- `/services/electrician-lucknow`
+- `/services/plumber-lucknow`
+- `/services/ac-repair-lucknow`
+- `/areas/gomti-nagar`
+- `/areas/aliganj`
+- `/services/electrician/gomti-nagar`
+
+The app updates title, meta description, canonical URL, LocalBusiness schema, Service schema, and FAQ schema based on route.

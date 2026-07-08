@@ -78,12 +78,18 @@ async function loadOverview() {
     supabase.from('workers').select('id', { count: 'exact', head: true }),
     supabase.from('bookings').select('amount,status')
   ]);
-  const revenue = (bookings.data || []).filter((item) => item.status !== 'cancelled').reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  const rows = bookings.data || [];
+  const revenue = rows.filter((item) => item.status === 'completed' || item.payment_status === 'paid').reduce((sum, item) => sum + Number(item.final_price || item.amount || 0), 0);
+  const today = new Date().toISOString().slice(0, 10);
   $('#overviewCards').innerHTML = [
-    ['Users', users.count || 0, 'users'],
+    ['Customers', users.count || 0, 'users'],
     ['Workers', workers.count || 0, 'hard-hat'],
-    ['Bookings', bookings.data?.length || 0, 'calendar-check'],
-    ['Revenue', `Rs. ${revenue}`, 'indian-rupee']
+    ['Total bookings', rows.length, 'calendar-check'],
+    ['Today bookings', rows.filter((item) => String(item.created_at || '').startsWith(today)).length, 'calendar-days'],
+    ['Revenue', `Rs. ${revenue}`, 'indian-rupee'],
+    ['Completed', rows.filter((item) => item.status === 'completed').length, 'circle-check'],
+    ['Cancelled', rows.filter((item) => item.status === 'cancelled').length, 'circle-x'],
+    ['Pending', rows.filter((item) => item.status === 'pending').length, 'hourglass']
   ].map(([label, value, icon]) => `
     <div class="card p-5">
       <i data-lucide="${icon}" class="h-6 w-6 text-brand"></i>
@@ -140,9 +146,9 @@ async function loadBookings() {
     <tr class="border-b border-line">
       <td class="px-4 py-3">${escapeHTML(booking.users?.name || '-')}</td>
       <td class="px-4 py-3">${escapeHTML(booking.workers?.name || booking.categories?.name || '-')}</td>
-      <td class="px-4 py-3">${escapeHTML(booking.city || '-')}</td>
+      <td class="px-4 py-3">${escapeHTML(booking.area || booking.city || '-')}</td>
       <td class="px-4 py-3">${escapeHTML(booking.status)}</td>
-      <td class="px-4 py-3">Rs. ${escapeHTML(booking.amount)}</td>
+      <td class="px-4 py-3">${escapeHTML(booking.payment_status || 'unpaid')} · Rs. ${escapeHTML(booking.final_price || booking.amount || booking.estimated_price || 0)}</td>
       <td class="px-4 py-3">${escapeHTML(formatDateTime(booking.scheduled_date))}</td>
     </tr>
   `).join('') || '<tr><td colspan="6" class="px-4 py-6 text-center text-neutral-500">No bookings found.</td></tr>';
