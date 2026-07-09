@@ -38,6 +38,7 @@ Tagline: **Trusted Home Services in Lucknow**
 
    - `008_kaamnest_pro_schema.sql`
    - `009_kaamnest_seed_lucknow.sql`
+   - `010_security_hardening_rls_guards.sql`
    - `007_make_azeem_admin.sql` after your admin Auth user exists
 
 4. Start dev server:
@@ -68,7 +69,7 @@ Tagline: **Trusted Home Services in Lucknow**
 ## Admin setup
 
 1. Create or confirm the admin user in Supabase Authentication.
-2. Run `supabase/migrations/007_make_azeem_admin.sql`.
+2. Open `supabase/migrations/007_make_azeem_admin.sql`, replace `CHANGE_ADMIN_EMAIL@example.com` with your real admin email, then run it in Supabase SQL Editor.
 3. Login at `/admin/login`.
 
 If login succeeds but admin access fails, the Auth user exists but the `public.users.role='admin'` or `public.admins` row is missing. Run the admin SQL again.
@@ -95,6 +96,7 @@ If login succeeds but admin access fails, the Auth user exists but the `public.u
 - Frontend uses only Supabase anon key.
 - Service-role keys must never be committed or pasted into frontend code.
 - RLS policies are required before production users.
+- Run `010_security_hardening_rls_guards.sql` before production. It prevents normal users from changing protected fields such as admin role, worker verification status, booking amounts, payment status, and assignment fields.
 - User-rendered strings are escaped through `src/utils.js`.
 - Add production rate limiting through Supabase Edge Functions or Vercel serverless functions before high traffic launch.
 - Razorpay is intentionally only a placeholder. Add real online payment through secure backend/serverless endpoints later.

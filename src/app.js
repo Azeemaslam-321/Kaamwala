@@ -842,7 +842,8 @@ function authError(message) {
 }
 
 async function signUpWithPassword(profile) {
-  const profileDraft = { ...profile, city: 'Lucknow' };
+  const { password: _password, ...safeProfile } = profile;
+  const profileDraft = { ...safeProfile, city: 'Lucknow' };
   localStorage.setItem('kaamnest_signup', JSON.stringify(profileDraft));
   const { data, error } = await supabase.auth.signUp({
     email: profile.email,

@@ -71,8 +71,8 @@
               <input name="service_areas" class="input-field sm:col-span-2" placeholder="Service areas, e.g. Gomti Nagar, Aliganj" />
               <input name="availability" class="input-field" placeholder="Availability, e.g. Mon-Sat 9 AM-7 PM" />
               <input name="upi" class="input-field" placeholder="Bank/UPI placeholder" />
-              <input name="document" type="file" class="input-field sm:col-span-2" disabled />
-              <input name="photo" type="file" class="input-field sm:col-span-2" disabled />
+              <input name="document" type="file" class="input-field sm:col-span-2" accept=".pdf,image/png,image/jpeg,image/webp" />
+              <input name="photo" type="file" class="input-field sm:col-span-2" accept="image/png,image/jpeg,image/webp" />
             </div>
             <input id="resetOtp" name="otp" class="input-field hidden" placeholder="Reset OTP code, if email gives code" minlength="4" />
             <input id="newPassword" name="new_password" type="password" class="input-field hidden" placeholder="New password" minlength="8" autocomplete="new-password" />
@@ -122,7 +122,7 @@
           <input type="datetime-local" name="scheduled_date" class="input-field" required />
           <input name="address" class="input-field sm:col-span-2" placeholder="Full address with landmark" required />
           <textarea name="notes" class="input-field min-h-28 sm:col-span-2" placeholder="Issue description, appliance model, preferred instructions"></textarea>
-          <input name="image" type="file" class="input-field sm:col-span-2" disabled />
+          <input name="image" type="file" class="input-field sm:col-span-2" accept="image/png,image/jpeg,image/webp" />
           <div class="rounded-xl bg-soft p-4 text-sm sm:col-span-2">
             <div class="font-bold">Estimated payment</div>
             <p id="bookingPriceHint" class="mt-1 text-slate-600">Cash on service / unpaid request for now. Online payment placeholder is ready for future Razorpay integration.</p>

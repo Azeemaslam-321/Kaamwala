@@ -48,12 +48,7 @@ async function verifyAdmin() {
   const { data: profile, error } = await supabase.from('users').select('*, admins(*)').eq('id', session.user.id).maybeSingle();
   if (error) return false;
   if (!profile) {
-    await supabase.from('users').insert({
-      id: session.user.id,
-      name: session.user.user_metadata?.full_name || session.user.email?.split('@')[0] || 'Admin User',
-      email: session.user.email,
-      role: 'customer'
-    });
+    showToast('Auth login sahi hai, lekin admin profile row missing hai. 007_make_azeem_admin.sql run karein.', 'error');
     return false;
   }
   if (profile.is_blocked) return false;
